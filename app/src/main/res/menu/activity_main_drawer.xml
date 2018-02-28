@@ -5,34 +5,28 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/guidemap"
+            android:icon="@drawable/mapsflags"
+            android:title="Guide Map" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/dining"
+            android:icon="@drawable/forkknife"
+            android:title="Dining" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/attractions"
+            android:icon="@drawable/rollercoaster"
+            android:title="Attractions" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/itinerary"
+            android:icon="@drawable/shoppinglist"
+            android:title="Itinerary" />
+        <item
+            android:id="@+id/settings"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Settings" />
+        <item
+            android:id="@+id/merchandise"
+            android:icon="@drawable/shoppingcart"
+            android:title="Merchandise" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>
