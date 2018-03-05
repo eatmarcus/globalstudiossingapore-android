@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/diningImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diningInfor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/diningName"
+        android:layout_width="200dp"
+        android:layout_height="15dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/diningInfor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/diningImage"
+        app:layout_constraintEnd_toStartOf="@+id/diningDist"
+        tools:layout_editor_absoluteX="102dp" />
+
+    <TextView
+        android:id="@+id/diningInfor"
+        android:layout_width="200dp"
+        android:layout_height="15dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/diningPriceRange1"
+        app:layout_constraintTop_toBottomOf="@id/diningName"
+        app:layout_constraintStart_toEndOf="@+id/diningImage"
+        app:layout_constraintEnd_toStartOf="@+id/diningDist"
+        tools:layout_editor_absoluteX="102dp" />
+
+    <ImageView
+        android:id="@+id/diningPriceRange1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toEndOf="@+id/diningImage"
+        app:layout_constraintTop_toBottomOf="@id/diningInfor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diningPriceRange2"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/diningPriceRange2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diningPriceRange3"
+        app:layout_constraintStart_toEndOf="@+id/diningPriceRange1"
+        app:layout_constraintTop_toBottomOf="@+id/diningInfor"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/diningPriceRange3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diningCategory"
+        app:layout_constraintStart_toEndOf="@+id/diningPriceRange2"
+        app:layout_constraintTop_toBottomOf="@+id/diningInfor"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/diningDist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/diningCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="92dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/diningDist"
+        app:layout_constraintTop_toBottomOf="@id/diningInfor"
+        app:layout_constraintVertical_bias="0.578" />
+
+
+</android.support.constraint.ConstraintLayout>
