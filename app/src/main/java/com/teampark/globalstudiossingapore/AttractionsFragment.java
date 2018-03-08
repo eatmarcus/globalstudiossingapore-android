@@ -7,11 +7,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog.Builder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.teampark.globalstudiossingapore.utility.DialogBuilder;
 
 
 /**
@@ -27,13 +32,15 @@ public class AttractionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private final String TAG = "AttractionsFragment";
 
     public AttractionsFragment() {
         // Required empty public constructor
@@ -65,22 +72,74 @@ public class AttractionsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { 
-            // Android M Permission check 
-            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); 
-                builder.setTitle("This app needs location access");
-                builder.setMessage("Please grant location access so this app can detect beacons.");
-                builder.setPositiveButton(android.R.string.ok, null); 
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  
-                    @Override 
-                    public void onDismiss(DialogInterface dialog) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION); 
-                    }  
-                }); 
-                builder.show(); 
+        /*
+         *  REQUEST PERMISSIONS!
+         */
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.d(TAG, "Location Permissions not obtained! Requesting Permissions...");
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_REQUEST_GET_LOCATION);
+        } else {
+
+            // Permissions already obtained!!
+
+        }
+    }
+
+
+    /*
+     *  Permissions user input result!
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_GET_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    Log.d(TAG, "Location Permission allowed by user.");
+                    // doSomething();
+
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Log.d(TAG, "Location Permission denied by user.");
+                    DialogBuilder.showDialog("Permission Required", "Location permissions are required to obtain your current location. Should GSS attempt to obtain location permissions?", getActivity(),
+                            "YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                            PERMISSIONS_REQUEST_GET_LOCATION);
+                                }
+                            }, "NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // no selected, give up asking for permission!
+                                }
+                            });
+                }
+                return;
             }
-     }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
 
