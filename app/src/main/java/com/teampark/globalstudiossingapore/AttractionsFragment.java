@@ -1,9 +1,14 @@
 package com.teampark.globalstudiossingapore;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog.Builder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +27,7 @@ public class AttractionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,7 +64,25 @@ public class AttractionsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { 
+            // Android M Permission check 
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { 
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); 
+                builder.setTitle("This app needs location access");
+                builder.setMessage("Please grant location access so this app can detect beacons.");
+                builder.setPositiveButton(android.R.string.ok, null); 
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  
+                    @Override 
+                    public void onDismiss(DialogInterface dialog) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION); 
+                    }  
+                }); 
+                builder.show(); 
+            }
+     }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
