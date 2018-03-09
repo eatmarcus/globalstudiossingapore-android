@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.chrisbanes.photoview.PhotoView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +30,8 @@ public class GuideMapFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private PhotoView photoView;
 
     public GuideMapFragment() {
         // Required empty public constructor
@@ -63,9 +67,15 @@ public class GuideMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_guide_map, container, false);
+
         getActivity().setTitle("Guide Map");
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guide_map, container, false);
+
+        photoView = view.findViewById(R.id.photoView);
+
+        photoView.setImageResource(R.drawable.map);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
