@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Theresa Lee\AndroidStudioProjects\globalstudiossingapore-android\GlobalStudiosSingapore.iml" filepath="C:\Users\Theresa Lee\AndroidStudioProjects\globalstudiossingapore-android\GlobalStudiosSingapore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GlobalStudiosSingapore.iml" filepath="$PROJECT_DIR$/GlobalStudiosSingapore.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/globalstudiossingapore-android.iml" filepath="$PROJECT_DIR$/globalstudiossingapore-android.iml" />
     </modules>
   </component>
 </project>
