@@ -1,6 +1,7 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,34 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
         TextView textViewCat = viewHolder.category;
         textViewCat.setText(places.getDiningCategory());
 
-        // To add all the ImageView items here using Picasso!!!
+        ImageView imageViewRes = viewHolder.imageView;
+        imageViewRes.setImageResource(places.getImageUrl());
+
+        int priceRange = places.getPriceRange();
+        if(priceRange == 1){
+            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
+            imageViewPriceRange1.setVisibility(View.VISIBLE);
+            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
+
+        }else if(priceRange == 2){
+            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
+            imageViewPriceRange1.setVisibility(View.VISIBLE);
+            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
+            ImageView imageViewPriceRange2 = viewHolder.priceRange2;
+            imageViewPriceRange2.setVisibility(View.VISIBLE);
+            imageViewPriceRange2.setImageResource(R.drawable.pricerange);
+        }else{
+            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
+            imageViewPriceRange1.setVisibility(View.VISIBLE);
+            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
+            ImageView imageViewPriceRange2 = viewHolder.priceRange2;
+            imageViewPriceRange2.setVisibility(View.VISIBLE);
+            imageViewPriceRange2.setImageResource(R.drawable.pricerange);
+            ImageView imageViewPriceRange3 = viewHolder.priceRange3;
+            imageViewPriceRange3.setVisibility(View.VISIBLE);
+            imageViewPriceRange3.setImageResource(R.drawable.pricerange);
+        }
+
     }
 
     // To determine the number of items
