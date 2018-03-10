@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -22,6 +26,7 @@ public class DiningFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ArrayList<DiningPlaces> diningList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,8 +69,20 @@ public class DiningFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle("Dining");
-        return inflater.inflate(R.layout.fragment_dining, container, false);
+        View view = inflater.inflate(R.layout.fragment_dining, container, false);
+
+        // Lookup the recycler in activity layout
+        RecyclerView rvDiningPlaces = (RecyclerView)view.findViewById(R.id.diningList);
+
+        // Initialize dining places
+        diningList = DiningPlaces.createDiningList(10);
+        // Create adapter passing in the sample user data
+        DiningAdapter adapter = new DiningAdapter(getActivity(),diningList);
+        // Attach the adapter to the recyclerview to populate items
+        rvDiningPlaces.setAdapter(adapter);
+        rvDiningPlaces.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
