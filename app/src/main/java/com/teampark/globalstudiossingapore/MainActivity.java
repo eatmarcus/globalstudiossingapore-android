@@ -1,12 +1,7 @@
 package com.teampark.globalstudiossingapore;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,11 +21,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
 import com.teampark.globalstudiossingapore.utility.DialogBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
@@ -40,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     protected static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
     private BeaconManager beaconManager;
+    private BeaconRegion region1, region2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,31 +214,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void startProximity(){
-        beaconManager = new BeaconManager(getApplicationContext());
+        beaconManager = new BeaconManager(this);
+        region1 = new BeaconRegion("RETURN OF THE MUMMY", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 43349, 38934);
+        region2 = new BeaconRegion("TRANSFORMERS", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 34588, 22564);
+        beaconManager.setBackgroundScanPeriod(2000, 5000);
+        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
+            @Override
+            public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
+                Log.d("ENTERED", region.getIdentifier());
+                //do Something
+            }
+            @Override
+            public void onExitedRegion(BeaconRegion region) {
+                // could add an "exit" notification too if you want (-:
+                Log.d("EXITED", region.getIdentifier());
+                //do Something
+            }
+        });
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
-                beaconManager.startMonitoring(new BeaconRegion("region", null, null, null));
+                beaconManager.startMonitoring(region1);
+                beaconManager.startMonitoring(region2);
+                //beaconManager.startRanging(region);
             }
         });
     }
 
-    public void showNotification(String title, String message) {
-        Intent notifyIntent = new Intent(this, MainActivity.class);
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
-                new Intent[] { notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new Notification.Builder(this)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .build();
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
+    public void goToMyHouse(View v){
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
     }
 }
