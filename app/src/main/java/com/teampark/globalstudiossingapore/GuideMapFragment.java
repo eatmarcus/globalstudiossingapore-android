@@ -132,9 +132,10 @@ public class GuideMapFragment extends Fragment {
     }
 
     public void directToPlace(){
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("google.navigation:saddr=1.3602344&daddr=103.7560092"));
-        startActivity(intent);
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=1.355137, 103.760892&mode=w");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
 }
