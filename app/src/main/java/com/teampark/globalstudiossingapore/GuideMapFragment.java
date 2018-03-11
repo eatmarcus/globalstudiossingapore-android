@@ -36,7 +36,7 @@ public class GuideMapFragment extends Fragment {
 
     private PhotoView photoView;
 
-    private Button goHome;
+    private Button goThere;
 
     public GuideMapFragment() {
         // Required empty public constructor
@@ -80,6 +80,15 @@ public class GuideMapFragment extends Fragment {
 
         photoView.setImageResource(R.drawable.map);
 
+        goThere = view.findViewById(R.id.getThere);
+        goThere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //put method here
+                directToPlace();
+            }
+        });
+
         return view;
     }
 
@@ -120,6 +129,12 @@ public class GuideMapFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void directToPlace(){
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:saddr=1.3602344&daddr=103.7560092"));
+        startActivity(intent);
     }
 
 }
