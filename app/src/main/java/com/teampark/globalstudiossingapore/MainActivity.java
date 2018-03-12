@@ -242,7 +242,4 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void goToMyHouse(View v){
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
-    }
 }
