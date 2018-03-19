@@ -69,9 +69,7 @@ public class MapDisplayUtility {
         double ySearchValue = trimToDecimalPlaces(yValue, decimalPoint);
 
         HashMap<MapPoint, Attraction> mapPointAttractionHashMap = AttractionDAO.getAttractionMapPositionList();
-
-        //return mapPointAttractionHashMap.get(new MapPoint(xSearchValue, ySearchValue));
-        return new Attraction("Raging River", new MapPoint(123, 123));
+        return mapPointAttractionHashMap.get(new MapPoint(xSearchValue, ySearchValue));
     }
 
 }

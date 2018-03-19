@@ -237,23 +237,23 @@ public class GuideMapFragment extends Fragment {
                 //Invalid Point
 //                avi.setVisibility(View.INVISIBLE);
 //                avi.hide();
-                if (currentOpenPopupWindow!=null){
-                    currentOpenPopupWindow.dismiss();
-                    currentOpenPopupWindow = null;
-                }
+//                if (currentOpenPopupWindow!=null){
+//                    currentOpenPopupWindow.dismiss();
+//                    currentOpenPopupWindow = null;
+//                }
             }
         }
     }
 
     public void dismissPopupWindowWithEffect(){
-//        if (avi != null){
+        if (avi != null){
 //            avi.setVisibility(View.INVISIBLE);
 //            avi.hide();
-//        }
-//        if (currentOpenPopupWindow!=null){
-//            currentOpenPopupWindow.dismiss();
-//            currentOpenPopupWindow = null;
-//        }
+        }
+        if (currentOpenPopupWindow!=null){
+            currentOpenPopupWindow.dismiss();
+            currentOpenPopupWindow = null;
+        }
     }
 
 }
