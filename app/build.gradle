@@ -4,8 +4,9 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.teampark.globalstudiossingapore"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 26
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 allprojects {
@@ -25,7 +30,7 @@ allprojects {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible,GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
@@ -33,6 +38,7 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -40,4 +46,14 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.estimote:sdk:1.0.12'
     implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.17'
+    compile project(':app-viro_core-release')
+    compile project(':core-1.0.0')
+    compile project(':sdk-common-1.101.0')
+    compile 'org.apache.commons:commons-lang3:3.6'
+    compile 'com.wang.avi:library:2.1.3'
 }

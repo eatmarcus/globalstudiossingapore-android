@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':sdk-common-1.101.0', ':app-viro_core-release', ':core-1.0.0'

@@ -2,8 +2,10 @@ package com.teampark.globalstudiossingapore;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,10 +28,24 @@ import android.widget.Toast;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.teampark.globalstudiossingapore.Entity.Records;
+import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 import com.teampark.globalstudiossingapore.utility.DialogBuilder;
+import com.teampark.globalstudiossingapore.utility.SharedPrefsUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
@@ -40,12 +56,18 @@ public class MainActivity extends AppCompatActivity
     private BeaconManager beaconManager;
     private BeaconRegion region1, region2;
 
+    CompositeDisposable compositeDisposable;
+
+    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        compositeDisposable = new CompositeDisposable();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,13 +105,18 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             Log.d(TAG, "Location Permissions not obtained! Requesting Permissions...");
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_GET_LOCATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        PERMISSIONS_REQUEST_GET_LOCATION);
+            }
         } else {
 
             // Permissions already obtained!!
             startProximity();
         }
+
+//        Intent intent = new Intent(this, ARActivity.class);
+//        startActivity(intent);
 
 
     }
@@ -120,8 +147,10 @@ public class MainActivity extends AppCompatActivity
                             "YES", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                            PERMISSIONS_REQUEST_GET_LOCATION);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                                PERMISSIONS_REQUEST_GET_LOCATION);
+                                    }
                                 }
                             }, "NO", new DialogInterface.OnClickListener() {
                                 @Override
@@ -215,20 +244,84 @@ public class MainActivity extends AppCompatActivity
 
     public void startProximity(){
         beaconManager = new BeaconManager(this);
-        region1 = new BeaconRegion("RETURN OF THE MUMMY", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 43349, 38934);
-        region2 = new BeaconRegion("TRANSFORMERS", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 34588, 22564);
+        region1 = new BeaconRegion("1", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 43349, 38934);
+        region2 = new BeaconRegion("2", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 34588, 22564);
         beaconManager.setBackgroundScanPeriod(2000, 5000);
         beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
             @Override
             public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
                 Log.d("ENTERED", region.getIdentifier());
-                //do Something
+                Toast.makeText(getApplicationContext(), "Entered " + region.getIdentifier(), Toast.LENGTH_LONG).show();
+                //
+                // USER ENTERS REGION, INSERT A RECORD WITH ISENTERED 1
+                //
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+                RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                        .baseUrl(url)
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(client)
+                        .build().create(RecordRequestInterface.class);
+
+                Map<String, String> fieldsMap = new HashMap<>();
+                if(region.getIdentifier().equals("1")){
+                    fieldsMap.put("beaconId", "1");
+                }else if(region.getIdentifier().equals("2")){
+                    fieldsMap.put("beaconId", "2");
+                }
+
+                fieldsMap.put("isEntered", "1");
+
+                compositeDisposable.add(recordRequestInterface.addRecords(fieldsMap)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(this::handleResponse,this::handleError));
             }
+
+            private void handleResponse(Records records) {
+                //dont care
+            }
+
+            private void handleError(Throwable error) {
+                Log.d("Error", "Entering of record kena error");
+                error.printStackTrace();
+            }
+
             @Override
             public void onExitedRegion(BeaconRegion region) {
-                // could add an "exit" notification too if you want (-:
                 Log.d("EXITED", region.getIdentifier());
-                //do Something
+                Toast.makeText(getApplicationContext(), "Exited " + region.getIdentifier(), Toast.LENGTH_LONG).show();
+                //
+                // USER EXITS REGION, INSERT A RECORD WITH ISENTERED -1
+                //
+
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+                RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                        .baseUrl(url)
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(client)
+                        .build().create(RecordRequestInterface.class);
+
+                Map<String, String> fieldsMap = new HashMap<>();
+                if(region.getIdentifier().equals("1")){
+                    fieldsMap.put("beaconId", "1");
+                }else if(region.getIdentifier().equals("2")){
+                    fieldsMap.put("beaconId", "2");
+                }
+
+                fieldsMap.put("isEntered", "-1");
+
+                compositeDisposable.add(recordRequestInterface.addRecords(fieldsMap)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(this::handleResponse,this::handleError));
             }
         });
 
@@ -237,9 +330,13 @@ public class MainActivity extends AppCompatActivity
             public void onServiceReady() {
                 beaconManager.startMonitoring(region1);
                 beaconManager.startMonitoring(region2);
-                //beaconManager.startRanging(region);
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }
