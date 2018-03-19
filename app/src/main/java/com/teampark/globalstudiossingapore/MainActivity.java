@@ -26,10 +26,24 @@ import android.view.MenuItem;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.teampark.globalstudiossingapore.Entity.Records;
+import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 import com.teampark.globalstudiossingapore.utility.DialogBuilder;
+import com.teampark.globalstudiossingapore.utility.SharedPrefsUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
@@ -40,12 +54,18 @@ public class MainActivity extends AppCompatActivity
     private BeaconManager beaconManager;
     private BeaconRegion region1, region2;
 
+    CompositeDisposable compositeDisposable;
+
+    private static String url = "heyitsmong.com:8080/gss-server/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        compositeDisposable = new CompositeDisposable();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -218,20 +238,84 @@ public class MainActivity extends AppCompatActivity
 
     public void startProximity(){
         beaconManager = new BeaconManager(this);
-        region1 = new BeaconRegion("RETURN OF THE MUMMY", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 43349, 38934);
-        region2 = new BeaconRegion("TRANSFORMERS", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 34588, 22564);
+        region1 = new BeaconRegion("1", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 43349, 38934);
+        region2 = new BeaconRegion("2", UUID.fromString("b9407f30-f5f8-466e-aff9-25556b57fe6d") , 34588, 22564);
         beaconManager.setBackgroundScanPeriod(2000, 5000);
         beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
             @Override
             public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
                 Log.d("ENTERED", region.getIdentifier());
-                //do Something
+                //
+                // USER ENTERS REGION, INSERT A RECORD WITH ISENTERED 1
+                //
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+                RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                        .baseUrl(url)
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(client)
+                        .build().create(RecordRequestInterface.class);
+
+                Map<String, String> fieldsMap = new HashMap<>();
+                if(region.getIdentifier().equals("1")){
+                    fieldsMap.put("beaconId", "1");
+                }else if(region.getIdentifier().equals("2")){
+                    fieldsMap.put("beaconId", "2");
+                }
+
+                fieldsMap.put("isEntered", "1");
+
+                compositeDisposable.add(recordRequestInterface.addRecords(fieldsMap)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(this::handleResponse,this::handleError));
             }
+
+            private void handleResponse(Records records) {
+                //dont care
+            }
+
+            private void handleError(Throwable error) {
+                Log.d("Error", "Entering of record kena error");
+                error.printStackTrace();
+            }
+
             @Override
             public void onExitedRegion(BeaconRegion region) {
                 // could add an "exit" notification too if you want (-:
                 Log.d("EXITED", region.getIdentifier());
-                //do Something
+
+                //
+                // USER EXITS REGION, INSERT A RECORD WITH ISENTERED -1
+                //
+
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+                RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                        .baseUrl(url)
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(client)
+                        .build().create(RecordRequestInterface.class);
+
+                Map<String, String> fieldsMap = new HashMap<>();
+                if(region.getIdentifier().equals("1")){
+                    fieldsMap.put("beaconId", "1");
+                }else if(region.getIdentifier().equals("2")){
+                    fieldsMap.put("beaconId", "2");
+                }
+
+                fieldsMap.put("isEntered", "-1");
+
+                compositeDisposable.add(recordRequestInterface.addRecords(fieldsMap)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(this::handleResponse,this::handleError));
             }
         });
 
@@ -245,4 +329,9 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }

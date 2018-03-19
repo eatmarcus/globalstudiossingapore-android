@@ -93,7 +93,7 @@ public class GuideMapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //put method here
-                directToPlace();
+                directToPlace(1.355137, 103.760892);
             }
         });
 
@@ -139,8 +139,9 @@ public class GuideMapFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void directToPlace(){
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=1.355137, 103.760892&mode=w");
+    public void directToPlace(double lat, double lng){
+        String toParse = "google.navigation:q=" + lat + ", " + lng + "&mode=w";
+        Uri gmmIntentUri = Uri.parse(toParse);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
