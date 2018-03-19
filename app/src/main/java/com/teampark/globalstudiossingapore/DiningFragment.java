@@ -68,6 +68,8 @@ public class DiningFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ( (MainActivity) getActivity()).getSupportActionBar().setTitle("Dining");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dining, container, false);
 
@@ -75,7 +77,7 @@ public class DiningFragment extends Fragment {
         RecyclerView rvDiningPlaces = (RecyclerView)view.findViewById(R.id.diningList);
 
         // Initialize dining places
-        diningList = DiningPlaces.createDiningList(10);
+        diningList = DiningPlaces.createDiningList();
         // Create adapter passing in the sample user data
         DiningAdapter adapter = new DiningAdapter(getActivity(),diningList);
         // Attach the adapter to the recyclerview to populate items

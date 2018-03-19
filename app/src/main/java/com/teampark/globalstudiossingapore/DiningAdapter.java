@@ -1,11 +1,14 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,9 +48,11 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
         public ImageView priceRange3;
         public TextView category;
 
+        private Context context;
+
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        public ViewHolder(final Context context, View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
@@ -60,6 +65,11 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
             priceRange2 = (ImageView) itemView.findViewById(R.id.diningPriceRange2);
             priceRange3 = (ImageView) itemView.findViewById(R.id.diningPriceRange3);
             category = (TextView)itemView.findViewById(R.id.diningCategory);
+
+            // Store the context
+            this.context = context;
+
+
         }
     }
 
@@ -74,15 +84,15 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
         View diningView = inflater.inflate(R.layout.item_dininglayout, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(diningView);
+        ViewHolder viewHolder = new ViewHolder(context,diningView);
         return viewHolder;
     }
 
     // To set the view attributes based on the data
     @Override
-    public void onBindViewHolder(DiningAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(DiningAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
-        DiningPlaces places = diningPlaces.get(position);
+        final DiningPlaces places = diningPlaces.get(position);
 
         // Set item views based on your views and data model
         TextView textViewName = viewHolder.name;
@@ -99,6 +109,21 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
 
         ImageView imageViewRes = viewHolder.imageView;
         imageViewRes.setImageResource(places.getImageUrl());
+
+        // This is to move to the dining menu from the list of dining places
+        View itemView = viewHolder.itemView;
+        // Attach a click listener to the entire row view
+        itemView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(mContext,DiningMenu.class);
+                intent.putExtra("restaurantId", places.getId());
+                intent.putExtra("diningPlace",places.getDiningName());
+                intent.putExtra("diningPic", places.getImageUrl());
+                // When the person click should go to the DiningMenu page
+                mContext.startActivity(intent);
+            }
+        });
 
         int priceRange = places.getPriceRange();
         if(priceRange == 1){
