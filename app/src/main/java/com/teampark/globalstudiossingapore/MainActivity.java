@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     CompositeDisposable compositeDisposable;
 
-    private static String url = "heyitsmong.com:8080/gss-server/";
+    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity
             startProximity();
         }
 
-        Intent intent = new Intent(this, ARActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ARActivity.class);
+//        startActivity(intent);
 
 
     }
