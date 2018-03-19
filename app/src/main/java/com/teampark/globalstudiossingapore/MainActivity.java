@@ -2,6 +2,7 @@ package com.teampark.globalstudiossingapore;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity
             // Permissions already obtained!!
             startProximity();
         }
+
+        Intent intent = new Intent(this, ARActivity.class);
+        startActivity(intent);
 
 
     }

@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-viro_core-release/app-viro_core-release.iml" filepath="$PROJECT_DIR$/app-viro_core-release/app-viro_core-release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core-1.0.0/core-1.0.0.iml" filepath="$PROJECT_DIR$/core-1.0.0/core-1.0.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/globalstudiossingapore-android.iml" filepath="$PROJECT_DIR$/globalstudiossingapore-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-common-1.101.0/sdk-common-1.101.0.iml" filepath="$PROJECT_DIR$/sdk-common-1.101.0/sdk-common-1.101.0.iml" />
     </modules>
   </component>
 </project>

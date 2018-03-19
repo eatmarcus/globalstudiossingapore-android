@@ -4,8 +4,9 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.teampark.globalstudiossingapore"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 26
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,7 +26,7 @@ allprojects {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible,GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
@@ -40,4 +41,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.estimote:sdk:1.0.12'
     implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.6.17'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.17'
+    compile project(':app-viro_core-release')
+    compile project(':core-1.0.0')
+    compile project(':sdk-common-1.101.0')
 }
