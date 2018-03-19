@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
@@ -103,8 +105,10 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             Log.d(TAG, "Location Permissions not obtained! Requesting Permissions...");
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_GET_LOCATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        PERMISSIONS_REQUEST_GET_LOCATION);
+            }
         } else {
 
             // Permissions already obtained!!
@@ -143,8 +147,10 @@ public class MainActivity extends AppCompatActivity
                             "YES", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                            PERMISSIONS_REQUEST_GET_LOCATION);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                                PERMISSIONS_REQUEST_GET_LOCATION);
+                                    }
                                 }
                             }, "NO", new DialogInterface.OnClickListener() {
                                 @Override
@@ -245,6 +251,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
                 Log.d("ENTERED", region.getIdentifier());
+                Toast.makeText(getApplicationContext(), "Entered " + region.getIdentifier(), Toast.LENGTH_LONG).show();
                 //
                 // USER ENTERS REGION, INSERT A RECORD WITH ISENTERED 1
                 //
@@ -285,9 +292,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onExitedRegion(BeaconRegion region) {
-                // could add an "exit" notification too if you want (-:
                 Log.d("EXITED", region.getIdentifier());
-
+                Toast.makeText(getApplicationContext(), "Exited " + region.getIdentifier(), Toast.LENGTH_LONG).show();
                 //
                 // USER EXITS REGION, INSERT A RECORD WITH ISENTERED -1
                 //
@@ -324,7 +330,6 @@ public class MainActivity extends AppCompatActivity
             public void onServiceReady() {
                 beaconManager.startMonitoring(region1);
                 beaconManager.startMonitoring(region2);
-                //beaconManager.startRanging(region);
             }
         });
     }

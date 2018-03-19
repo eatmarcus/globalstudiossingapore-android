@@ -18,6 +18,11 @@ import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.teampark.globalstudiossingapore.Entity.Attraction;
+import com.teampark.globalstudiossingapore.Entity.MapPoint;
+import com.teampark.globalstudiossingapore.utility.ConverterUtility;
+import com.teampark.globalstudiossingapore.utility.MapDisplayUtility;
+import com.wang.avi.AVLoadingIndicatorView;
 
 
 /**
@@ -42,7 +47,9 @@ public class GuideMapFragment extends Fragment {
 
     private PhotoView photoView;
 
-    private Button goThere;
+    PopupWindow currentOpenPopupWindow = null;
+
+    private AVLoadingIndicatorView avi;
 
     public GuideMapFragment() {
         // Required empty public constructor
@@ -87,15 +94,6 @@ public class GuideMapFragment extends Fragment {
         photoView.setImageResource(R.drawable.map);
         photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         photoView.setOnPhotoTapListener(new PhotoTapListener());
-
-        goThere = view.findViewById(R.id.getThere);
-        goThere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //put method here
-                directToPlace(1.355137, 103.760892);
-            }
-        });
 
         return view;
     }
@@ -155,110 +153,107 @@ public class GuideMapFragment extends Fragment {
             float xPercentage = x * 100f;
             float yPercentage = y * 100f;
 
-//            //
-//            // POPUP VIEW
-//            //
-//            //Open Popup (map_popup.xml)
-//            LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            View popupView = layoutInflater.inflate(R.layout.map_popup, null);
-//            final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//            Button departureButton = (Button) popupView.findViewById(R.id.startStation);
-//            Button arrivalButton = (Button) popupView.findViewById(R.id.endStation);
-//
-//
-//            //Done as OnViewTapListener is still not available, change to listener in future!!
-//            //Reverse calculate to obtain view tap region.
-//            PhotoView photoView = (PhotoView) view;
-//            RectF displayRect = photoView.getDisplayRect();
-//            float xViewTap = x * displayRect.width() + displayRect.left;
-//            float yViewTap = y * displayRect.height() + displayRect.top;
-//
-//            //For Debugging Purposes
-//            System.out.println("IMAGE TAP REGION: X-"+x+", Y-"+y);
-//            System.out.println("VIEW TAP REGION: X-"+xViewTap+", Y-"+yViewTap);
-//
-//            checkStationTextValidityAndClear();
-//
-//
-//            // Obtain Station from tapped position.
-//            // Returns null if there's no valid station at that tap.
-//            Station tappedStation = MapDisplayUtility.getStation(x, y);
-//
-//            if (tappedStation != null){
-//                //System.out.println("THERE IS A STATION HERE!!!!");
-//                //Display popup at tap region
-//
-//                //Obtain actual position of the tapped region
-//                MapPoint actualStationMapPoint = tappedStation.getMapCoordinates();
-//                double actualStationX = actualStationMapPoint.getxCoordinate();
-//                double actualStationY = actualStationMapPoint.getyCoordinate();
-//
-//                actualStationX = actualStationX * displayRect.width() + displayRect.left;
-//                actualStationY = actualStationY * displayRect.height() + displayRect.top;
-//
-//                //Set on click listeners for buttons
-//                departureButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        AutoCompleteTextView departureTextView = (AutoCompleteTextView) getView().findViewById(R.id.departureTextView);
-//                        departureTextView.setText(tappedStation.getStationName());
-//                        departureTextView.clearFocus();
-//
-//                        dismissPopupWindowWithEffect();
-//                        checkFieldsAndInvokeScreen();
-//
-//                    }
-//                });
-//
-//                arrivalButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        AutoCompleteTextView arrivalTextView = (AutoCompleteTextView) getView().findViewById(R.id.arrivalTextView);
-//                        arrivalTextView.setText(tappedStation.getStationName());
-//                        arrivalTextView.callOnClick();
-//
-//                        dismissPopupWindowWithEffect();
-//                        checkFieldsAndInvokeScreen();
-//
-//                    }
-//                });
-//
-//
-//                //Display on UI
-//                //180 and 125 are hardcoded values, height and width of the popup windows to offset and centralise!
-//                if (currentOpenPopupWindow!=null){
-//                    currentOpenPopupWindow.dismiss();
-//                    currentOpenPopupWindow = null;
-//
-//                }
-//
-//                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -88);
-//                float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 115);
-//                //-208, 285
-//                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualStationX+xOffsetPxPopup), (int)(actualStationY+yOffsetPxPopup));
-//                //popupWindow.showAsDropDown(view, (int)xViewTap, (int)yViewTap, Gravity.CENTER_HORIZONTAL);
-//                currentOpenPopupWindow = popupWindow;
-//
-//                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -20);
-//                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), 82);
-//                //-55, 202
-//                avi.setPadding((int)(actualStationX+xOffsetPx),(int)(actualStationY+yOffsetPx),0,0);
+            //
+            // POPUP VIEW
+            //
+            //Open Popup (map_popup.xml)
+            LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View popupView = layoutInflater.inflate(R.layout.map_popup, null);
+            final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
+
+            //Done as OnViewTapListener is still not available, change to listener in future!!
+            //Reverse calculate to obtain view tap region.
+            PhotoView photoView = (PhotoView) view;
+            RectF displayRect = photoView.getDisplayRect();
+            float xViewTap = x * displayRect.width() + displayRect.left;
+            float yViewTap = y * displayRect.height() + displayRect.top;
+
+            //For Debugging Purposes
+            System.out.println("IMAGE TAP REGION: X-"+x+", Y-"+y);
+            System.out.println("VIEW TAP REGION: X-"+xViewTap+", Y-"+yViewTap);
+
+            // Obtain Station from tapped position.
+            // Returns null if there's no valid station at that tap.
+            Attraction tappedAttraction = MapDisplayUtility.getAttraction(x, y);
+
+            if (tappedAttraction != null){
+                //System.out.println("THERE IS A ATTRACTION HERE!!!!");
+                //Display popup at tap region
+
+                //Obtain actual position of the tapped region
+                MapPoint actualAttractionMapPoint = tappedAttraction.getMapCoordinates();
+                double actualAttractionX = actualAttractionMapPoint.getxCoordinate();
+                double actualAttractionY = actualAttractionMapPoint.getyCoordinate();
+
+                actualAttractionX = actualAttractionX * displayRect.width() + displayRect.left;
+                actualAttractionY = actualAttractionY * displayRect.height() + displayRect.top;
+
+                //Set on click listeners for buttons
+                goThereButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String attractionName = tappedAttraction.getName();
+                        dismissPopupWindowWithEffect();
+                        if(attractionName.equals("Raging River")){
+                            directToPlace(1.2543797, 103.8231613);
+                        }else if(attractionName.equals("Dare Devil")){
+                            directToPlace(1.2540289,103.8230367);
+                        }else if(attractionName.equals("Sponglash Wave Pool")){
+                            directToPlace(1.253302,103.8227258);
+                        }else if(attractionName.equals("Steamin' Demon")){
+                            directToPlace(1.2532943,103.8220809);
+                        }else if(attractionName.equals("Thomie's Mine Train")){
+                            directToPlace(1.2540289,103.8230367);
+                        }
+
+                    }
+                });
+
+                //Display on UI
+                //180 and 125 are hardcoded values, height and width of the popup windows to offset and centralise!
+                if (currentOpenPopupWindow!=null){
+                    currentOpenPopupWindow.dismiss();
+                    currentOpenPopupWindow = null;
+
+                }
+
+                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -88);
+                float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 115);
+                //-208, 285
+                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualAttractionX+xOffsetPxPopup), (int)(actualAttractionY+yOffsetPxPopup));
+                //popupWindow.showAsDropDown(view, (int)xViewTap, (int)yViewTap, Gravity.CENTER_HORIZONTAL);
+                currentOpenPopupWindow = popupWindow;
+
+                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -20);
+                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), 82);
+                //-55, 202
+//                avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
 //                avi.show();
 //                avi.setVisibility(View.VISIBLE);
-//
-//
-//
-//            } else{
-//                //Invalid Point
+
+            } else{
+                //Invalid Point
 //                avi.setVisibility(View.INVISIBLE);
 //                avi.hide();
-//                if (currentOpenPopupWindow!=null){
-//                    currentOpenPopupWindow.dismiss();
-//                    currentOpenPopupWindow = null;
-//                }
-//            }
+                if (currentOpenPopupWindow!=null){
+                    currentOpenPopupWindow.dismiss();
+                    currentOpenPopupWindow = null;
+                }
+            }
         }
+    }
+
+    public void dismissPopupWindowWithEffect(){
+//        if (avi != null){
+//            avi.setVisibility(View.INVISIBLE);
+//            avi.hide();
+//        }
+//        if (currentOpenPopupWindow!=null){
+//            currentOpenPopupWindow.dismiss();
+//            currentOpenPopupWindow = null;
+//        }
     }
 
 }

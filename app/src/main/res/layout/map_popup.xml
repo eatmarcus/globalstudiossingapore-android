@@ -17,19 +17,19 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/startStation"
-                style="@style/Widget.AppCompat.Button"
+
+            <TextView
+                android:id="@+id/waitingTime"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:elevation="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Depart Here" />
+                android:text="Waiting Time" />
 
             <Button
-                android:id="@+id/endStation"
+                android:id="@+id/goThere"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:elevation="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Arrive Here" />
+                android:text="Get There" />
 
         </LinearLayout>
 
