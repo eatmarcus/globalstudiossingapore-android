@@ -49,7 +49,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
-        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener{
+        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener{
 
     protected static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
@@ -229,7 +229,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.settings) {
 
         } else if (id == R.id.merchandise) {
-
+            fragment = new PhotoSelectionFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainFrame, fragment);
+            ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

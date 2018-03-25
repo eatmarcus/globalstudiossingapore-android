@@ -1,12 +1,17 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.teampark.globalstudiossingapore.Entity.PhotoCharacter;
 
 import java.util.List;
 
@@ -16,13 +21,13 @@ import java.util.List;
 
 public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAdapter.ViewHolder> {
 
-    private List<DiningPlaces> diningPlaces;
+    private List<PhotoCharacter> photoCharacters;
     private Context mContext;
 
     // Pass in the diningPlaces array into the constructor
-    public PhotoSelectionAdapter(Context context, List<DiningPlaces> diningPlacesList){
+    public PhotoSelectionAdapter(Context context, List<PhotoCharacter> photoCharacters){
         mContext = context;
-        diningPlaces = diningPlacesList;
+        this.photoCharacters = photoCharacters;
     }
 
     private Context getContext(){
@@ -32,14 +37,15 @@ public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView name;
-        public TextView information;
-        public TextView distance;
-        public ImageView imageView;
-        public ImageView priceRange1;
-        public ImageView priceRange2;
-        public ImageView priceRange3;
-        public TextView category;
+
+        private ImageView photoImage1;
+        private ImageView photoImage2;
+        private TextView photoName1;
+        private TextView photoName2;
+
+        private CardView cardView1;
+        private CardView cardView2;
+
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -48,14 +54,13 @@ public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAd
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            name = (TextView)itemView.findViewById(R.id.diningName);
-            information = (TextView)itemView.findViewById(R.id.diningInfor);
-            distance = (TextView)itemView.findViewById(R.id.diningDist);
-            imageView = (ImageView)itemView.findViewById(R.id.diningImage);
-            priceRange1 = (ImageView) itemView.findViewById(R.id.diningPriceRange1);
-            priceRange2 = (ImageView) itemView.findViewById(R.id.diningPriceRange2);
-            priceRange3 = (ImageView) itemView.findViewById(R.id.diningPriceRange3);
-            category = (TextView)itemView.findViewById(R.id.diningCategory);
+            photoName1 = itemView.findViewById(R.id.photoName1);
+            photoName2 = itemView.findViewById(R.id.photoName2);
+            photoImage1 = itemView.findViewById(R.id.photoImage1);
+            photoImage2 = itemView.findViewById(R.id.photoImage2);
+
+            cardView1 = itemView.findViewById(R.id.cardView1);
+            cardView2 = itemView.findViewById(R.id.cardView2);
         }
     }
 
@@ -67,10 +72,10 @@ public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAd
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View diningView = inflater.inflate(R.layout.item_dininglayout, parent, false);
+        View photoSelectionView = inflater.inflate(R.layout.item_photoselection, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(diningView);
+        ViewHolder viewHolder = new ViewHolder(photoSelectionView);
         return viewHolder;
     }
 
@@ -78,55 +83,62 @@ public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAd
     @Override
     public void onBindViewHolder(PhotoSelectionAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        DiningPlaces places = diningPlaces.get(position);
+        PhotoCharacter character1 = photoCharacters.get(position * 2);
+        PhotoCharacter character2 = null;
+
+        if (photoCharacters.size() > (position * 2 + 1)){
+            character2 = photoCharacters.get(position * 2 + 1);
+        }
 
         // Set item views based on your views and data model
-        TextView textViewName = viewHolder.name;
-        textViewName.setText(places.getDiningName());
+        TextView photoName1TextView = viewHolder.photoName1;
+        photoName1TextView.setText(character1.getCharacterName());
 
-        TextView textViewInfo = viewHolder.information;
-        textViewInfo.setText(places.getDiningInfo());
+        ImageView photoImage1ImageView = viewHolder.photoImage1;
+        photoImage1ImageView.setImageResource(character1.getPreviewImage());
 
-        TextView textViewDist = viewHolder.distance;
-        textViewDist.setText(places.getDiningDistance());
+        CardView cardView1 = viewHolder.cardView1;
 
-        TextView textViewCat = viewHolder.category;
-        textViewCat.setText(places.getDiningCategory());
+        cardView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (mContext, ARActivity.class);
+                intent.putExtra("file", character1.getFileLocation());
+                mContext.startActivity(intent);
+            }
+        });
 
-        ImageView imageViewRes = viewHolder.imageView;
-        imageViewRes.setImageResource(places.getImageUrl());
 
-        int priceRange = places.getPriceRange();
-        if(priceRange == 1){
-            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
-            imageViewPriceRange1.setVisibility(View.VISIBLE);
-            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
+        CardView cardView2 = viewHolder.cardView2;
 
-        }else if(priceRange == 2){
-            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
-            imageViewPriceRange1.setVisibility(View.VISIBLE);
-            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
-            ImageView imageViewPriceRange2 = viewHolder.priceRange2;
-            imageViewPriceRange2.setVisibility(View.VISIBLE);
-            imageViewPriceRange2.setImageResource(R.drawable.pricerange);
-        }else{
-            ImageView imageViewPriceRange1 = viewHolder.priceRange1;
-            imageViewPriceRange1.setVisibility(View.VISIBLE);
-            imageViewPriceRange1.setImageResource(R.drawable.pricerange);
-            ImageView imageViewPriceRange2 = viewHolder.priceRange2;
-            imageViewPriceRange2.setVisibility(View.VISIBLE);
-            imageViewPriceRange2.setImageResource(R.drawable.pricerange);
-            ImageView imageViewPriceRange3 = viewHolder.priceRange3;
-            imageViewPriceRange3.setVisibility(View.VISIBLE);
-            imageViewPriceRange3.setImageResource(R.drawable.pricerange);
+        if (character2 != null){
+            TextView photoName2TextView = viewHolder.photoName2;
+            photoName2TextView.setText(character2.getCharacterName());
+
+            ImageView photoImage2ImageView = viewHolder.photoImage2;
+            photoImage2ImageView.setImageResource(character2.getPreviewImage());
+
+            PhotoCharacter finalCharacter = character2;
+            cardView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent (mContext, ARActivity.class);
+                    intent.putExtra("file", finalCharacter.getFileLocation());
+                    intent.putExtra("scale", finalCharacter.getScale());
+                    mContext.startActivity(intent);
+                }
+            });
+        } else {
+            cardView2.setVisibility(View.INVISIBLE);
         }
+
 
     }
 
     // To determine the number of items
     @Override
     public int getItemCount() {
-        return diningPlaces.size();
+        return (photoCharacters.size() + 1) / 2;
     }
 
 }
