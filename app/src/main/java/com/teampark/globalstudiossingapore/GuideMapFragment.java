@@ -21,14 +21,26 @@ import android.widget.Toast;
 import com.github.chrisbanes.photoview.OnMatrixChangedListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.teampark.globalstudiossingapore.DAO.AttractionDAO;
 import com.teampark.globalstudiossingapore.Entity.Attraction;
+import com.teampark.globalstudiossingapore.Entity.BeaconRecord;
 import com.teampark.globalstudiossingapore.Entity.MapPoint;
+import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 import com.teampark.globalstudiossingapore.utility.ConverterUtility;
 import com.teampark.globalstudiossingapore.utility.MapDisplayUtility;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -56,6 +68,12 @@ public class GuideMapFragment extends Fragment {
     PopupWindow currentOpenPopupWindow = null;
 
     public AVLoadingIndicatorView avi;
+
+    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
+    CompositeDisposable compositeDisposable;
+
+    String timeFor1;
+    String timeFor2;
 
     public GuideMapFragment() {
         // Required empty public constructor
@@ -104,7 +122,63 @@ public class GuideMapFragment extends Fragment {
 
         avi = view.findViewById(R.id.avi);
 
+        //
+        //RETRIEVE ALL RECORDS
+        //
+        compositeDisposable = new CompositeDisposable();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                .baseUrl(url)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build().create(RecordRequestInterface.class);
+
+        compositeDisposable.add(recordRequestInterface.getAllRecords()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse,this::handleError));
+        //
+        //End
+        //
+
+
         return view;
+    }
+
+    private void handleResponse(ArrayList<BeaconRecord> beaconRecords) {
+        //GET THE RECORDS AND THEN CALCULATE THE TIME
+        for (BeaconRecord beaconRecord : beaconRecords){
+            //Get the beaconId
+            String id = beaconRecord.getBeaconId();
+            //Get the count
+            int count = beaconRecord.getCount();
+
+            if(id.equals("1")){
+                if((count/12) <= 1){
+                    timeFor1 = "< 5mins";
+                }else{
+                    int time = (count/12) * 5;
+                    timeFor1 = "< " + time + "mins";
+                }
+            }else{
+                if((count/12) <= 1){
+                    timeFor2 = "< 5mins";
+                }else{
+                    int time = (count/12) * 5;
+                    timeFor2 = "< " + time + "mins";
+                }
+            }
+
+        }
+    }
+
+    private void handleError(Throwable error) {
+        Log.d("Error", "Cannot get beacon records");
+        error.printStackTrace();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -176,7 +250,6 @@ public class GuideMapFragment extends Fragment {
             TextView descriptionTextView = popupView.findViewById(R.id.descriptionTextView);
             TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
 
-
             //Done as OnViewTapListener is still not available, change to listener in future!!
             //Reverse calculate to obtain view tap region.
             PhotoView photoView = (PhotoView) view;
@@ -199,8 +272,15 @@ public class GuideMapFragment extends Fragment {
 
                 rideNameTextView.setText(tappedAttraction.getName());
                 descriptionTextView.setText(tappedAttraction.getDescription());
-                timeValueTextView.setText(tappedAttraction.getWaitingTime());
 
+                //Set the waiting time for the 2 attractions
+                if(tappedAttraction.getName().equals("Thomie's Mine Train")){
+                    timeValueTextView.setText(timeFor1);
+                }else if(tappedAttraction.getName().equals("Dare Devil")){
+                    timeValueTextView.setText(timeFor2);
+                }else{
+                    timeValueTextView.setText("< 5mins");
+                }
                 //Obtain actual position of the tapped region
                 MapPoint actualAttractionMapPoint = tappedAttraction.getMapCoordinates();
                 double actualAttractionX = actualAttractionMapPoint.getxCoordinate();
@@ -208,6 +288,8 @@ public class GuideMapFragment extends Fragment {
 
                 actualAttractionX = actualAttractionX * displayRect.width() + displayRect.left;
                 actualAttractionY = actualAttractionY * displayRect.height() + displayRect.top;
+
+
 
                 //Set on click listeners for buttons
                 goThereButton.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.teampark.globalstudiossingapore.Entity.Records;
 import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +29,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import com.teampark.globalstudiossingapore.Entity.Attraction;
+
+import java.util.ArrayList;
 
 
 /**
@@ -41,9 +48,7 @@ public class AttractionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
-    CompositeDisposable compositeDisposable;
+    private ArrayList<Attractions> attractionsList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -52,6 +57,14 @@ public class AttractionsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private final String TAG = "AttractionsFragment";
+
+    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
+    CompositeDisposable compositeDisposable;
+
+    RecyclerView rvAttractions;
+
+    int timeFor1;
+    int timeFor2;
 
     public AttractionsFragment() {
         // Required empty public constructor
@@ -87,7 +100,15 @@ public class AttractionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ( (MainActivity) getActivity()).getSupportActionBar().setTitle("Attractions");
+
         getActivity().setTitle("Attractions");
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_attractions, container, false);
+
+        // Lookup the recycler in activity layout
+        rvAttractions = (RecyclerView)view.findViewById(R.id.attractionList);
 
         //
         //RETRIEVE ALL RECORDS
@@ -108,19 +129,69 @@ public class AttractionsFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse,this::handleError));
+        //
+        //End
+        //
 
-
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_attractions, container, false);
+        return view;
     }
 
     private void handleResponse(ArrayList<BeaconRecord> beaconRecords) {
         //GET THE RECORDS AND THEN CALCULATE THE TIME
         for (BeaconRecord beaconRecord : beaconRecords){
-            System.out.println(beaconRecord.toString());
+            //Get the beaconId
+            String id = beaconRecord.getBeaconId();
+            //Get the count
+            int count = beaconRecord.getCount();
+
+            if(id.equals("1")){
+                if((count/12) <= 1){
+                    timeFor1 = 5;
+                }else{
+                    int time = (count/12) * 5;
+                    timeFor1 = time;
+                }
+            }else{
+                if((count/12) <= 1){
+                    timeFor2 = 5;
+                }else{
+                    int time = (count/12) * 5;
+                    timeFor2 = time;
+                }
+            }
+
         }
-        Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
+        attractionsList = Attractions.createAttractionList();
+
+        for(int i = 0; i < attractionsList.size(); i++){
+            Attractions a = attractionsList.get(i);
+            if(a.getAttractionName().equals("Thomie's Mine Train")){
+                attractionsList.remove(i);
+            }
+        }
+        for(int i = 0; i < attractionsList.size(); i++){
+            Attractions a = attractionsList.get(i);
+            if(a.getAttractionName().equals("Dare Devil")){
+                attractionsList.remove(i);
+            }
+        }
+
+        attractionsList.add(new Attractions(2, "Dare Devil",
+                "Cylon – as you engage in the ultimate intergalactic battle between good and evil on the world’s tallest dueling roller coasters!"
+                ,timeFor2,R.drawable.attractions2, "Sci-fi City", "All Ages"));
+
+        attractionsList.add(new Attractions(3, "Thomie's Mine Train",
+                " Test your intergalactic stamina on this whirling twirling attraction."
+                ,timeFor1,R.drawable.attractions3, "Sci-fi City", "All Ages"));
+
+        Collections.sort(attractionsList, new Attractions());
+        // Create adapter passing in the sample user data
+        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(), attractionsList);
+        // Attach the adapter to the recyclerview to populate items
+        rvAttractions.setAdapter(adapter);
+        rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
     }
 
     private void handleError(Throwable error) {
