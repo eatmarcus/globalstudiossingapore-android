@@ -84,7 +84,7 @@ public class DiningFragment extends Fragment {
         RecyclerView rvDiningPlaces = (RecyclerView)view.findViewById(R.id.diningList);
 
         // construct a new instance of SimpleLocation
-        location = new SimpleLocation(getActivity());
+        location = new SimpleLocation(getActivity(), true);
 
         // if we can't access the location yet
         if (!location.hasLocationEnabled()) {
