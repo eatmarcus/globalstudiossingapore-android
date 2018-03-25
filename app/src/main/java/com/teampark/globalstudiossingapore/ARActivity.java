@@ -232,9 +232,23 @@ public class ARActivity extends AppCompatActivity {
     private void displayScene() {
         // Create the ARScene within which to load our ProductAR Experience
         ARScene arScene = new ARScene();
-        mMainLight = new AmbientLight(Color.parseColor("#606060"), 400);
-        mMainLight.setInfluenceBitMask(3);
-        arScene.getRootNode().addLight(mMainLight);
+        mMainLight = new AmbientLight(Color.WHITE, 1000f);
+        //mMainLight.setInfluenceBitMask(3);
+        Spotlight spotlight = new Spotlight();
+        spotlight.setPosition(new Vector(0, -0.25f, 0));
+        spotlight.setColor(Color.WHITE);
+        spotlight.setDirection(new Vector(0, 0, -1));
+        spotlight.setAttenuationStartDistance(10);
+        spotlight.setAttenuationEndDistance(15);
+        spotlight.setInnerAngle(5);
+        spotlight.setOuterAngle(20);
+
+// Shadow casting parameters
+        spotlight.setCastsShadow(true);
+        spotlight.setShadowMapSize(1024);
+        spotlight.setShadowNearZ(1);
+        spotlight.setShadowFarZ(10);
+        arScene.getRootNode().addLight(spotlight);
 
         // Setup our 3D and HUD controls
         initARCrosshair(arScene);
@@ -284,7 +298,7 @@ public class ARActivity extends AppCompatActivity {
                     return;
                 }
 
-                mViroView.getRecorder().takeScreenShotAsync("screenShot", true, new ViroMediaRecorder.ScreenshotFinishListener() {
+                mViroView.getRecorder().takeScreenShotAsync("screenShot_" + System.nanoTime(), true, new ViroMediaRecorder.ScreenshotFinishListener() {
                     @Override
                     public void onSuccess(Bitmap bitmap, String s) {
                         final Intent shareIntent = new Intent(Intent.ACTION_SEND);

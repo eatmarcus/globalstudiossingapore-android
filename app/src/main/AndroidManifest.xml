@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.teampark.globalstudiossingapore">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,11 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.viromedia.API_KEY"
             android:value="5A9311FB-C47E-4F25-A357-F1DB3661BBD7" />
-        <meta-data android:name="com.google.ar.core" android:value="optional" />
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="optional" />
 
         <activity
             android:name=".MainActivity"
@@ -31,11 +33,23 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".DiningMenu"
-            android:label="Dining Menu"/>
-        <activity android:name=".DiningMains"></activity>
-        <activity android:name=".ARActivity"></activity>
+        <activity
+            android:name=".DiningMenu"
+            android:label="Dining Menu" />
+        <activity android:name=".DiningMains" />
+        <activity android:name=".ARActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".ScanQRActivity"></activity>
+
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="sensorPortrait"
+            tools:replace="screenOrientation" />
     </application>
 
 </manifest>

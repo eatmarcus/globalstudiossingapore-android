@@ -104,6 +104,7 @@ public class PhotoSelectionAdapter extends RecyclerView.Adapter<PhotoSelectionAd
             public void onClick(View view) {
                 Intent intent = new Intent (mContext, ARActivity.class);
                 intent.putExtra("file", character1.getFileLocation());
+                intent.putExtra("scale", character1.getScale());
                 mContext.startActivity(intent);
             }
         });
