@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.teampark.globalstudiossingapore.Entity.BeaconRecord;
 import com.teampark.globalstudiossingapore.Entity.Records;
 import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,8 +115,11 @@ public class AttractionsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_attractions, container, false);
     }
 
-    private void handleResponse(Records records) {
+    private void handleResponse(ArrayList<BeaconRecord> beaconRecords) {
         //GET THE RECORDS AND THEN CALCULATE THE TIME
+        for (BeaconRecord beaconRecord : beaconRecords){
+            System.out.println(beaconRecord.toString());
+        }
         Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
     }
 
