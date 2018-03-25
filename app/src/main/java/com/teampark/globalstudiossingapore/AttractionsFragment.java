@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.teampark.globalstudiossingapore.Entity.Attraction;
+
+import java.util.ArrayList;
 
 
 /**
@@ -22,6 +28,7 @@ public class AttractionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ArrayList<Attractions> attractionsList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,9 +72,24 @@ public class AttractionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Attractions");
+        ( (MainActivity) getActivity()).getSupportActionBar().setTitle("Attractions");
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_attractions, container, false);
+        View view = inflater.inflate(R.layout.fragment_attractions, container, false);
+
+        // Lookup the recycler in activity layout
+        RecyclerView rvAttractions = (RecyclerView)view.findViewById(R.id.attractionList);
+
+        // Initialize dining places
+        attractionsList = Attractions.createAttractionList();
+        // Create adapter passing in the sample user data
+        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(), attractionsList);
+
+        // Attach the adapter to the recyclerview to populate items
+        rvAttractions.setAdapter(adapter);
+        rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
