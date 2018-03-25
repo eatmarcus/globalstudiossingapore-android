@@ -13,7 +13,7 @@ public class Attraction {
     public Attraction(String name, String description, MapPoint mapCoordinates) {
         this.name = name;
         this.description = description;
-        this.waitingTime = "N.A.";
+        this.waitingTime = "< 5mins";
         this.mapCoordinates = mapCoordinates;
     }
 
@@ -36,4 +36,7 @@ public class Attraction {
     public String getWaitingTime() {
         return waitingTime;
     }
+
+    public void setWaitingTime(String waitingTime){ this.waitingTime = waitingTime; }
+
 }

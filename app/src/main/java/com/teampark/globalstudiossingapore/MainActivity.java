@@ -49,7 +49,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
-        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener{
+        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener {
 
     protected static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
@@ -69,12 +69,35 @@ public class MainActivity extends AppCompatActivity
 
         compositeDisposable = new CompositeDisposable();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton emergencyCall = (FloatingActionButton) findViewById(R.id.emergencyCall);
+        emergencyCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                String toCall = "81020805";
+                DialogBuilder.showDialog("Emergency Call Only", "Are you sure you want to call?", MainActivity.this, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + toCall));
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        } else {
+                            startActivity(intent);
+                        }
+                    }
+                }, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // nothing
+                    }
+                });
+
             }
         });
 

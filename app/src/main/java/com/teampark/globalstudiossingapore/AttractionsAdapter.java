@@ -85,7 +85,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
         textViewInfo.setText(rides.getAttractionInfo());
 
         TextView textViewQueue = viewHolder.queue;
-        textViewQueue.setText(rides.getAttractionQueue());
+        textViewQueue.setText(rides.getAttractionQueue()+"");
 
         TextView textViewCat = viewHolder.category;
         textViewCat.setText(rides.getAttractionCategory());
