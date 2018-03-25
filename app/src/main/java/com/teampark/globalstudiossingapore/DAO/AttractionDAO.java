@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class AttractionDAO {
 
-    private static final int MAP_ACCURACY_DECIMAL_POINT = 5;
-    private static final int MAP_SENSITIVITY_ACCEPTANCE_LIMITS = 5;
+    private static final int MAP_ACCURACY_DECIMAL_POINT = 1;
+    private static final int MAP_SENSITIVITY_ACCEPTANCE_LIMITS = 1;
     private static HashMap<MapPoint, Attraction> attractionMapPositionList;
     private final Context context;
 
