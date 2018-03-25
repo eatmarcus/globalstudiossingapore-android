@@ -35,6 +35,7 @@
         <activity android:name=".DiningMenu"
             android:label="Dining Menu"/>
         <activity android:name=".DiningMains"></activity>
+        <activity android:name=".ARActivity"></activity>
     </application>
 
 </manifest>

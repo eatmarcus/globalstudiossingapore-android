@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.teampark.globalstudiossingapore.DAO.PhotoSelectionDAO;
 
 
 /**
@@ -28,6 +32,8 @@ public class PhotoSelectionFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
 
     public PhotoSelectionFragment() {
         // Required empty public constructor
@@ -64,7 +70,14 @@ public class PhotoSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photo_selection, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo_selection, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        setRecyclerView();
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +117,14 @@ public class PhotoSelectionFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void setRecyclerView(){
+
+        PhotoSelectionAdapter adapter = new PhotoSelectionAdapter(getActivity(), PhotoSelectionDAO.getPhotoCharacterList());
+        // Attach the adapter to the recyclerview to populate items
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 }
