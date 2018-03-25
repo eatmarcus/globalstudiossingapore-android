@@ -42,11 +42,6 @@
         <activity android:name=".ARActivity"></activity>
         <activity android:name=".AttractionInfor"></activity>
         <activity
-            android:name=".DiningMenu"
-            android:label="Dining Menu" />
-        <activity android:name=".DiningMains" />
-        <activity android:name=".ARActivity" />
-        <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
