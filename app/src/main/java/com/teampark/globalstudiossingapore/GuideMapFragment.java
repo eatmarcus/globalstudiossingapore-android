@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.OnMatrixChangedListener;
@@ -101,6 +102,8 @@ public class GuideMapFragment extends Fragment {
         photoView.setOnMatrixChangeListener(new MatrixChangeListener());
         photoView.setOnPhotoTapListener(new PhotoTapListener());
 
+        avi = view.findViewById(R.id.avi);
+
         return view;
     }
 
@@ -158,16 +161,21 @@ public class GuideMapFragment extends Fragment {
         public void onPhotoTap(ImageView view, float x, float y) {
             float xPercentage = x * 100f;
             float yPercentage = y * 100f;
-            avi = new AVLoadingIndicatorView(getActivity());
             //
             // POPUP VIEW
             //
             //Open Popup (map_popup.xml)
             LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = layoutInflater.inflate(R.layout.map_popup, null);
+
             final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
+
+            TextView rideNameTextView = popupView.findViewById(R.id.rideNameTextView);
+            TextView descriptionTextView = popupView.findViewById(R.id.descriptionTextView);
+            TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
+
 
             //Done as OnViewTapListener is still not available, change to listener in future!!
             //Reverse calculate to obtain view tap region.
@@ -188,6 +196,10 @@ public class GuideMapFragment extends Fragment {
             if (tappedAttraction != null){
                 //System.out.println("THERE IS A ATTRACTION HERE!!!!");
                 //Display popup at tap region
+
+                rideNameTextView.setText(tappedAttraction.getName());
+                descriptionTextView.setText(tappedAttraction.getDescription());
+                timeValueTextView.setText(tappedAttraction.getWaitingTime());
 
                 //Obtain actual position of the tapped region
                 MapPoint actualAttractionMapPoint = tappedAttraction.getMapCoordinates();
@@ -239,6 +251,7 @@ public class GuideMapFragment extends Fragment {
                 avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
                 avi.show();
                 avi.setVisibility(View.VISIBLE);
+                System.out.println("AVI: "+ avi.getX() + ", " + avi.getY());
 
             } else{
                 //Invalid Point
