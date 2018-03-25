@@ -21,9 +21,5 @@ public interface RecordRequestInterface {
 
     @FormUrlEncoded
     @POST("records/get-all-records")
-    Observable<Records> getAllRecords(@FieldMap Map<String, String> fieldsMap);
-
-    @FormUrlEncoded
-    @POST("records/get-beacon-records")
-    Observable<Records> getBeaconRecords(@FieldMap Map<String, String> fieldsMap);
+    Observable<Records> getAllRecords();
 }

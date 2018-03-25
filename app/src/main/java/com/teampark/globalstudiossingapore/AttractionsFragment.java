@@ -4,9 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.teampark.globalstudiossingapore.Entity.Records;
+import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -22,6 +39,9 @@ public class AttractionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static String url = "http://heyitsmong.com:8080/gss-server/api/";
+    CompositeDisposable compositeDisposable;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,8 +86,41 @@ public class AttractionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().setTitle("Attractions");
+
+        //
+        //RETRIEVE ALL RECORDS
+        //
+        compositeDisposable = new CompositeDisposable();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        RecordRequestInterface recordRequestInterface = new Retrofit.Builder()
+                .baseUrl(url)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build().create(RecordRequestInterface.class);
+
+        compositeDisposable.add(recordRequestInterface.getAllRecords()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse,this::handleError));
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_attractions, container, false);
+    }
+
+    private void handleResponse(Records records) {
+        //GET THE RECORDS AND THEN CALCULATE THE TIME
+        Toast.makeText(getActivity(), "SUCCESS", Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleError(Throwable error) {
+        Log.d("Error", "Cannot get beacon records");
+        error.printStackTrace();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
