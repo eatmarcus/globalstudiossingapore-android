@@ -102,7 +102,7 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
         textViewInfo.setText(places.getDiningInfo());
 
         TextView textViewDist = viewHolder.distance;
-        textViewDist.setText(places.getDiningDistance());
+        textViewDist.setText(places.getDiningDistance()+"m");
 
         TextView textViewCat = viewHolder.category;
         textViewCat.setText(places.getDiningCategory());

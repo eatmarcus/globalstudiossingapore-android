@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import im.delight.android.location.SimpleLocation;
 
 
 /**
@@ -33,6 +37,8 @@ public class DiningFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private SimpleLocation location;
 
     public DiningFragment() {
         // Required empty public constructor
@@ -63,6 +69,7 @@ public class DiningFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -76,8 +83,18 @@ public class DiningFragment extends Fragment {
         // Lookup the recycler in activity layout
         RecyclerView rvDiningPlaces = (RecyclerView)view.findViewById(R.id.diningList);
 
+        // construct a new instance of SimpleLocation
+        location = new SimpleLocation(getActivity());
+
+        // if we can't access the location yet
+        if (!location.hasLocationEnabled()) {
+            // ask the user to enable location access
+            SimpleLocation.openSettings(getActivity());
+        }
+        Toast.makeText(getActivity(), "HAAAAAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
+        Log.v("LOCATION" , location.getLatitude()+", " + location.getLongitude());
         // Initialize dining places
-        diningList = DiningPlaces.createDiningList();
+        diningList = DiningPlaces.createDiningList(location);
         // Create adapter passing in the sample user data
         DiningAdapter adapter = new DiningAdapter(getActivity(),diningList);
         // Attach the adapter to the recyclerview to populate items
@@ -125,4 +142,20 @@ public class DiningFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // make the device update its location
+        location.beginUpdates();
+    }
+
+    @Override
+    public void onPause() {
+        // stop location updates (saves battery)
+        location.endUpdates();
+        super.onPause();
+    }
+
 }
