@@ -6,10 +6,14 @@ package com.teampark.globalstudiossingapore.Entity;
 
 public class Attraction {
     private String name;
+    private String description;
+    private String waitingTime;
     private MapPoint mapCoordinates;
 
-    public Attraction(String name, MapPoint mapCoordinates) {
+    public Attraction(String name, String description, MapPoint mapCoordinates) {
         this.name = name;
+        this.description = description;
+        this.waitingTime = "N.A.";
         this.mapCoordinates = mapCoordinates;
     }
 
@@ -23,5 +27,13 @@ public class Attraction {
 
     public MapPoint getMapCoordinates() {
         return mapCoordinates;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getWaitingTime() {
+        return waitingTime;
     }
 }

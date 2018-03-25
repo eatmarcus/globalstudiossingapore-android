@@ -4,8 +4,10 @@ package com.teampark.globalstudiossingapore.Network;
  * Created by Mong on 19/3/18.
  */
 
+import com.teampark.globalstudiossingapore.Entity.BeaconRecord;
 import com.teampark.globalstudiossingapore.Entity.Records;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -19,11 +21,6 @@ public interface RecordRequestInterface {
     @POST("records/add-records")
     Observable<Records> addRecords(@FieldMap Map<String, String> fieldsMap);
 
-    @FormUrlEncoded
     @POST("records/get-all-records")
-    Observable<Records> getAllRecords(@FieldMap Map<String, String> fieldsMap);
-
-    @FormUrlEncoded
-    @POST("records/get-beacon-records")
-    Observable<Records> getBeaconRecords(@FieldMap Map<String, String> fieldsMap);
+    Observable<ArrayList<BeaconRecord>> getAllRecords();
 }

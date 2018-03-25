@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +15,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.OnMatrixChangedListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.teampark.globalstudiossingapore.DAO.AttractionDAO;
 import com.teampark.globalstudiossingapore.Entity.Attraction;
 import com.teampark.globalstudiossingapore.Entity.MapPoint;
 import com.teampark.globalstudiossingapore.utility.ConverterUtility;
 import com.teampark.globalstudiossingapore.utility.MapDisplayUtility;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import java.util.Map;
 
 
 /**
@@ -49,7 +55,7 @@ public class GuideMapFragment extends Fragment {
 
     PopupWindow currentOpenPopupWindow = null;
 
-    private AVLoadingIndicatorView avi;
+    public AVLoadingIndicatorView avi;
 
     public GuideMapFragment() {
         // Required empty public constructor
@@ -93,7 +99,10 @@ public class GuideMapFragment extends Fragment {
 
         photoView.setImageResource(R.drawable.map);
         photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        photoView.setOnMatrixChangeListener(new MatrixChangeListener());
         photoView.setOnPhotoTapListener(new PhotoTapListener());
+
+        avi = view.findViewById(R.id.avi);
 
         return view;
     }
@@ -152,16 +161,21 @@ public class GuideMapFragment extends Fragment {
         public void onPhotoTap(ImageView view, float x, float y) {
             float xPercentage = x * 100f;
             float yPercentage = y * 100f;
-
             //
             // POPUP VIEW
             //
             //Open Popup (map_popup.xml)
             LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = layoutInflater.inflate(R.layout.map_popup, null);
+
             final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
+
+            TextView rideNameTextView = popupView.findViewById(R.id.rideNameTextView);
+            TextView descriptionTextView = popupView.findViewById(R.id.descriptionTextView);
+            TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
+
 
             //Done as OnViewTapListener is still not available, change to listener in future!!
             //Reverse calculate to obtain view tap region.
@@ -177,10 +191,15 @@ public class GuideMapFragment extends Fragment {
             // Obtain Station from tapped position.
             // Returns null if there's no valid station at that tap.
             Attraction tappedAttraction = MapDisplayUtility.getAttraction(x, y);
+            Map test = AttractionDAO.getAttractionMapPositionList();
 
             if (tappedAttraction != null){
                 //System.out.println("THERE IS A ATTRACTION HERE!!!!");
                 //Display popup at tap region
+
+                rideNameTextView.setText(tappedAttraction.getName());
+                descriptionTextView.setText(tappedAttraction.getDescription());
+                timeValueTextView.setText(tappedAttraction.getWaitingTime());
 
                 //Obtain actual position of the tapped region
                 MapPoint actualAttractionMapPoint = tappedAttraction.getMapCoordinates();
@@ -229,30 +248,40 @@ public class GuideMapFragment extends Fragment {
                 float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -20);
                 float yOffsetPx = ConverterUtility.dpToPx(getActivity(), 82);
                 //-55, 202
-//                avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
-//                avi.show();
-//                avi.setVisibility(View.VISIBLE);
+                avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
+                avi.show();
+                avi.setVisibility(View.VISIBLE);
+                System.out.println("AVI: "+ avi.getX() + ", " + avi.getY());
 
             } else{
                 //Invalid Point
-//                avi.setVisibility(View.INVISIBLE);
-//                avi.hide();
-//                if (currentOpenPopupWindow!=null){
-//                    currentOpenPopupWindow.dismiss();
-//                    currentOpenPopupWindow = null;
-//                }
+                avi.setVisibility(View.INVISIBLE);
+                avi.hide();
+                if (currentOpenPopupWindow!=null){
+                    currentOpenPopupWindow.dismiss();
+                    currentOpenPopupWindow = null;
+                }
             }
         }
     }
 
     public void dismissPopupWindowWithEffect(){
         if (avi != null){
-//            avi.setVisibility(View.INVISIBLE);
-//            avi.hide();
+            avi.setVisibility(View.INVISIBLE);
+            avi.hide();
         }
         if (currentOpenPopupWindow!=null){
             currentOpenPopupWindow.dismiss();
             currentOpenPopupWindow = null;
+        }
+    }
+
+    private class MatrixChangeListener implements OnMatrixChangedListener {
+
+        @Override
+        public void onMatrixChanged(RectF rect) {
+            dismissPopupWindowWithEffect();
+
         }
     }
 

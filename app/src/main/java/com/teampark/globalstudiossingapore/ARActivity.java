@@ -2,6 +2,7 @@ package com.teampark.globalstudiossingapore;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
+import com.google.ar.core.exceptions.UnavailableDeviceNotCompatibleException;
+import com.google.ar.core.exceptions.UnavailableException;
+import com.teampark.globalstudiossingapore.utility.DialogBuilder;
 import com.viro.core.ARAnchor;
 import com.viro.core.ARHitTestListener;
 import com.viro.core.ARHitTestResult;
@@ -78,9 +83,18 @@ public class ARActivity extends AppCompatActivity {
     private Vector mSavedRotateToRotation = new Vector();
     private ARHitTestListenerCrossHair mCrossHairHitTest = null;
 
+    private String fileLocation;
+    private double scale;
+
+    private boolean isLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        fileLocation = intent.getStringExtra("file");
+        scale = intent.getDoubleExtra("scale", -1);
 
         RendererConfiguration config = new RendererConfiguration();
         config.setShadowsEnabled(true);
@@ -88,57 +102,109 @@ public class ARActivity extends AppCompatActivity {
         config.setHDREnabled(true);
         config.setPBREnabled(true);
 
-        mViroView = new ViroViewARCore(this, new ViroViewARCore.StartupListener() {
-            @Override
-            public void onSuccess() {
-                displayScene();
-            }
+        try{
+            mViroView = new ViroViewARCore(this, new ViroViewARCore.StartupListener() {
+                @Override
+                public void onSuccess() {
+                    displayScene();
+                }
 
-            @Override
-            public void onFailure(ViroViewARCore.StartupError error, String errorMessage) {
-                Log.e(TAG, "Failed to load AR Scene [" + errorMessage + "]");
-            }
-        }, config);
-        setContentView(mViroView);
+                @Override
+                public void onFailure(ViroViewARCore.StartupError error, String errorMessage) {
+                    Log.e(TAG, "Failed to load AR Scene [" + errorMessage + "]");
+                }
+            }, config);
+            setContentView(mViroView);
 
-        Intent intent = getIntent();
-        String key = intent.getStringExtra(INTENT_PRODUCT_KEY);
+            View.inflate(this, R.layout.ar_hud, ((ViewGroup) mViroView));
+            mHudGroupView = (View) findViewById(R.id.main_hud_layout);
+            mHudGroupView.setVisibility(View.GONE);
+
+            isLoaded = true;
+        } catch (UnavailableDeviceNotCompatibleException e){
+            DialogBuilder.showDialog("Incompatible Device", "This device is not compatible with ARCore.", this, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ARActivity.this.finish();
+                }
+            });
+            e.printStackTrace();
+        } catch (UnavailableArcoreNotInstalledException e){
+            DialogBuilder.showDialog("ARCore Not Installed", "ARCore is required to run this AR photo taking application.", this, "YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.google.ar.core"));
+                    startActivity(intent);
+                }
+            }, "NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ARActivity.this.finish();
+                }
+            });
+            e.printStackTrace();
+        } catch (Exception e){
+            DialogBuilder.showDialog("Device Error", "Unable to Start ARCore on Device.", this, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ARActivity.this.finish();
+                }
+            });
+        }
+
+
+//        Intent intent = getIntent();
+//        String key = intent.getStringExtra(INTENT_PRODUCT_KEY);
 //        ProductApplicationContext context = (ProductApplicationContext)getApplicationContext();
 //        mSelectedProduct = context.getProductDB().getProductByName(key);
 
-        View.inflate(this, R.layout.ar_hud, ((ViewGroup) mViroView));
-        mHudGroupView = (View) findViewById(R.id.main_hud_layout);
-        mHudGroupView.setVisibility(View.GONE);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mViroView.onActivityStarted(this);
+        if (isLoaded){
+            mViroView.onActivityStarted(this);
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mViroView.onActivityResumed(this);
+        if (isLoaded){
+            mViroView.onActivityResumed(this);
+        }
+
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        mViroView.onActivityPaused(this);
+        if (isLoaded){
+            mViroView.onActivityPaused(this);
+        }
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mViroView.onActivityStopped(this);
+        if (isLoaded){
+            mViroView.onActivityStopped(this);
+        }
+
     }
 
     @Override
     protected void onDestroy(){
-        ((ViroViewARCore)mViroView).setCameraARHitTestListener(null);
-        mViroView.onActivityDestroyed(this);
+        if (isLoaded){
+            ((ViroViewARCore)mViroView).setCameraARHitTestListener(null);
+            mViroView.onActivityDestroyed(this);
+        }
+
         super.onDestroy();
     }
 
@@ -251,7 +317,8 @@ public class ARActivity extends AppCompatActivity {
 
                 mCrosshairModel = object3D;
                 mCrosshairModel.setOpacity(0);
-                mCrosshairModel.setScale(new Vector(0.175,0.175,0.175));
+//                mCrosshairModel.setScale(new Vector(0.175,0.175,0.175));
+                mCrosshairModel.setScale(new Vector(0.3,0.3,0.3));
                 mCrosshairModel.setClickListener(new ClickListener() {
                     @Override
                     public void onClick(int i, Node node, Vector vector) {
@@ -317,12 +384,13 @@ public class ARActivity extends AppCompatActivity {
 //                Log.e("Viro"," Model load failed : " + error);
 //            }
 //        });
-        productModel.loadModel(Uri.parse("file:///android_asset/mario.obj"), Object3D.Type.OBJ, new AsyncObject3DListener() {
+//        productModel.loadModel(Uri.parse("file:///android_asset/mario.obj"), Object3D.Type.OBJ, new AsyncObject3DListener() {
+        productModel.loadModel(Uri.parse(fileLocation), Object3D.Type.OBJ, new AsyncObject3DListener() {
             @Override
             public void onObject3DLoaded(final Object3D object, final Object3D.Type type) {
                 object.setLightReceivingBitMask(1);
                 mProductModelGroup.setOpacity(0);
-                mProductModelGroup.setScale(new Vector(0.9, 0.9, 0.9));
+                mProductModelGroup.setScale(new Vector(scale, scale, scale));
                 mLastProductRotation = object.getRotationEulerRealtime();
             }
 
@@ -388,13 +456,13 @@ public class ARActivity extends AppCompatActivity {
     private void updateUIHud(){
         switch(mStatus){
             case FINDING_SURFACE:
-                mHUDInstructions.setText("Point the camera at the flat surface where you want to view your product.");
+                mHUDInstructions.setText("Point the camera at the flat surface where you want to view your character.");
                 break;
             case SURFACE_NOT_FOUND:
                 mHUDInstructions.setText("We can’t seem to find a surface. Try moving your phone more in any direction.");
                 break;
             case SURFACE_FOUND:
-                mHUDInstructions.setText("Great! Now tap where you want to see the product.");
+                mHUDInstructions.setText("Great! Now tap where you want to see the character.");
                 break;
             case SELECTED_SURFACE:
                 mHUDInstructions.setText("Great! Use one finger to move and two fingers to rotate.");
