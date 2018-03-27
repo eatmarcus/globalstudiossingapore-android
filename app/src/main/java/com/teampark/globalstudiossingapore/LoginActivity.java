@@ -64,11 +64,11 @@ public class LoginActivity extends AppCompatActivity {
             if(scanResult.getContents() == null) {
                 //Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                //Toast.makeText(this, "Scanned: " + scanResult.getContents(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Scanned: " + scanResult.getContents(), Toast.LENGTH_LONG).show();
 
                 String resultValue = scanResult.getContents();
 
-                String dateValue = null;
+                String dateValue = "";
                 String id = null;
 
                 if (resultValue.contains("-")){
