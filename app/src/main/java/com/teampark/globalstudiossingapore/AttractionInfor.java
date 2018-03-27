@@ -1,16 +1,17 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.teampark.globalstudiossingapore.Entity.Attraction;
-
 public class AttractionInfor extends AppCompatActivity {
+
+    String coordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class AttractionInfor extends AppCompatActivity {
         String ageGroup = intent.getStringExtra("rideAge");
         String time = intent.getStringExtra("rideQueueTime");
         int ridePhoto = intent.getIntExtra("rideImage",-1);
+        coordinates = intent.getStringExtra("coordinates");
 
         ImageView rideImage = (ImageView)findViewById(R.id.attractionImage);
         rideImage.setImageResource(ridePhoto);
@@ -62,5 +64,14 @@ public class AttractionInfor extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goThere(View view) {
+
+        String toParse = "google.navigation:q=" + coordinates + "&mode=w";
+        Uri gmmIntentUri = Uri.parse(toParse);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

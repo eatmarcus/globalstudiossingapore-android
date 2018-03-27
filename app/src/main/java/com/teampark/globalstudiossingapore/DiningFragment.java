@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -91,8 +89,6 @@ public class DiningFragment extends Fragment {
             // ask the user to enable location access
             SimpleLocation.openSettings(getActivity());
         }
-        Toast.makeText(getActivity(), "HAAAAAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
-        Log.v("LOCATION" , location.getLatitude()+", " + location.getLongitude());
         // Initialize dining places
         diningList = DiningPlaces.createDiningList(location);
         // Create adapter passing in the sample user data

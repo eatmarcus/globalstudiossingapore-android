@@ -110,24 +110,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/mapIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="70dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+            <!--<ImageView-->
+                <!--android:id="@+id/mapIcon"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginStart="70dp"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:srcCompat="@mipmap/ic_launcher" />-->
 
-            <TextView
-                android:id="@+id/mapText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Find on Map"
-                app:layout_constraintEnd_toStartOf="@+id/mapDirections"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapIcon" />
+            <!--<TextView-->
+                <!--android:id="@+id/mapText"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Find on Map"-->
+                <!--app:layout_constraintEnd_toStartOf="@+id/mapDirections"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/mapIcon" />-->
 
             <ImageView
                 android:id="@+id/directionIcon"
@@ -138,7 +138,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                android:onClick="goThere"/>
 
             <TextView
                 android:id="@+id/mapDirections"
@@ -147,7 +148,7 @@
                 android:text="Get Directions"
                 android:layout_marginStart="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mapText"
+                app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/directionIcon" />
         </android.support.constraint.ConstraintLayout>
 
