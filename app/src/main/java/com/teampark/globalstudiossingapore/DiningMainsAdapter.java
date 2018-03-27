@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.teampark.globalstudiossingapore.Entity.DiningMainItem;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -38,6 +40,7 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
         public TextView name;
         public TextView information;
         public ImageView imageView;
+        public TextView price;
 
         private Context context;
 
@@ -51,7 +54,7 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
             name = (TextView)itemView.findViewById(R.id.mainName);
             information = (TextView)itemView.findViewById(R.id.mainDescription);
             imageView = (ImageView)itemView.findViewById(R.id.mainIcon);
-
+            price = (TextView)itemView.findViewById(R.id.itemPrice);
 
             // Store the context
             this.context = context;
@@ -90,6 +93,9 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
         ImageView imageViewRes = viewHolder.imageView;
         imageViewRes.setImageResource(diningMainItem.getImage());
+
+        TextView textViewPrice = viewHolder.price;
+        textViewPrice.setText(diningMainItem.getPrice());
 
     }
 

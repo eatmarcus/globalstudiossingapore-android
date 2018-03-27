@@ -27,26 +27,27 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> snackItems1 = new ArrayList<>();
 
         // Promotion Items
-        addDiningItem(promotionItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+
+        addDiningItem(promotionItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Main Items
-        addDiningItem(mainItems1, R.drawable.res1main1, "Crispy Honey Chicken", "The most popular main in the restaurant. The skin is extremely crunchy, but the white meat is relatively soft.");
-        addDiningItem(mainItems1, R.drawable.res1main2, "Five Pieces Chicken", "Kid’s favorite. The sauce is made up of cayenne pepper, paprika, and salt.\n");
-        addDiningItem(mainItems1, R.drawable.res1main3, "Szechuan Spicy Chicken", "The addition of cayenne and hot sauce give the chicken some zest without being over powering.");
-        addDiningItem(mainItems1, R.drawable.res1main4, "Mac & Cheese Fried Chicken", "The crispy outer layer of that toasty breadcrumb encrusted gooey mac n cheese, is just the beginning of your palate pleasures!");
-        addDiningItem(mainItems1, R.drawable.res1main5, "Buttermilk Fried Chicken", "After the buttermilk soak, dredge the chicken pieces in seasoned flour, and fry them in hot oil until crisp!");
+        addDiningItem(mainItems1, R.drawable.res1main1, "Crispy Honey Chicken", "The most popular main in the restaurant. The skin is extremely crunchy, but the white meat is relatively soft.","$10.0");
+        addDiningItem(mainItems1, R.drawable.res1main2, "Five Pieces Chicken", "Kid’s favorite. The sauce is made up of cayenne pepper, paprika, and salt","$10.0" );
+        addDiningItem(mainItems1, R.drawable.res1main3, "Szechuan Spicy Chicken", "The addition of cayenne and hot sauce give the chicken some zest without being over powering.","$10.0");
+        addDiningItem(mainItems1, R.drawable.res1main4, "Mac & Cheese Fried Chicken", "The crispy outer layer of that toasty breadcrumb encrusted gooey mac n cheese, is just the beginning of your palate pleasures!","$10.0");
+        addDiningItem(mainItems1, R.drawable.res1main5, "Buttermilk Fried Chicken", "After the buttermilk soak, dredge the chicken pieces in seasoned flour, and fry them in hot oil until crisp!","$10.0");
 
         // Creating Appetizer Items
-        addDiningItem(appetizerItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(appetizerItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Dessert Items
-        addDiningItem(dessertItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(dessertItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Beverage Items
-        addDiningItem(beverageItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(beverageItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Snack Items
-        addDiningItem(snackItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(snackItems1, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 2: Five Fingers
         ArrayList<DiningMainItem> promotionItems2 = new ArrayList<>();
@@ -57,22 +58,22 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> snackItems2 = new ArrayList<>();
 
         // Promotion Items
-        addDiningItem(promotionItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Main Items
-        addDiningItem(mainItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(mainItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Appetizer Items
-        addDiningItem(appetizerItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(appetizerItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Dessert Items
-        addDiningItem(dessertItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(dessertItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Beverage Items
-        addDiningItem(beverageItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(beverageItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         // Creating Snack Items
-        addDiningItem(snackItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(snackItems2, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 3: Bacon Box
         ArrayList<DiningMainItem> promotionItems3 = new ArrayList<>();
@@ -82,12 +83,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems3 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems3 = new ArrayList<>();
 
-        addDiningItem(promotionItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems3, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 4: Agisen
         ArrayList<DiningMainItem> promotionItems4 = new ArrayList<>();
@@ -97,12 +98,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems4 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems4 = new ArrayList<>();
 
-        addDiningItem(promotionItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems4, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 5: Coastal Coffee
         ArrayList<DiningMainItem> promotionItems5 = new ArrayList<>();
@@ -112,12 +113,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems5 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems5 = new ArrayList<>();
 
-        addDiningItem(promotionItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems5, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 6: Food Paradise
         ArrayList<DiningMainItem> promotionItems6 = new ArrayList<>();
@@ -127,12 +128,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems6 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems6 = new ArrayList<>();
 
-        addDiningItem(promotionItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems6, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 7: Hoshino Sushi
         ArrayList<DiningMainItem> promotionItems7 = new ArrayList<>();
@@ -142,12 +143,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems7 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems7 = new ArrayList<>();
 
-        addDiningItem(promotionItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems7, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 8: Lady Bakery
         ArrayList<DiningMainItem> promotionItems8 = new ArrayList<>();
@@ -157,12 +158,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems8 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems8 = new ArrayList<>();
 
-        addDiningItem(promotionItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems8, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 9: Mamma Rich
         ArrayList<DiningMainItem> promotionItems9 = new ArrayList<>();
@@ -172,12 +173,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems9 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems9 = new ArrayList<>();
 
-        addDiningItem(promotionItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems9, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
         //  Restaurant 10: Tom & Jerry
         ArrayList<DiningMainItem> promotionItems10 = new ArrayList<>();
@@ -187,12 +188,12 @@ public class DiningMainsDAO {
         ArrayList<DiningMainItem> beverageItems10 = new ArrayList<>();
         ArrayList<DiningMainItem> snackItems10 = new ArrayList<>();
 
-        addDiningItem(promotionItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(mainItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(appetizerItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(dessertItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(beverageItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
-        addDiningItem(snackItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....");
+        addDiningItem(promotionItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(mainItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(appetizerItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(dessertItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(beverageItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
+        addDiningItem(snackItems10, R.drawable.mamarich, "Buffalo Burger", "Juicy.....","$10.0");
 
 
         addRestaurant(1, promotionItems1, mainItems1, appetizerItems1, dessertItems1, beverageItems1, snackItems1);
@@ -207,8 +208,8 @@ public class DiningMainsDAO {
         addRestaurant(10, promotionItems10, mainItems2, appetizerItems2, dessertItems2, beverageItems2, snackItems2);
     }
 
-    private static void addDiningItem(ArrayList<DiningMainItem> diningMainItemList, int image, String name, String description){
-        diningMainItemList.add(new DiningMainItem(image, name, description));
+    private static void addDiningItem(ArrayList<DiningMainItem> diningMainItemList, int image, String name, String description, String price){
+        diningMainItemList.add(new DiningMainItem(image, name, description, price));
     }
 
     private static void addRestaurant(int restaurantId, ArrayList<DiningMainItem> promotionItems,

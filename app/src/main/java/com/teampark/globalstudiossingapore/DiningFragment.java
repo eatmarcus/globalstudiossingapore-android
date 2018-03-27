@@ -91,7 +91,7 @@ public class DiningFragment extends Fragment {
             // ask the user to enable location access
             SimpleLocation.openSettings(getActivity());
         }
-        Toast.makeText(getActivity(), "HAAAAAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
+
         Log.v("LOCATION" , location.getLatitude()+", " + location.getLongitude());
         // Initialize dining places
         diningList = DiningPlaces.createDiningList(location);

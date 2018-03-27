@@ -1,6 +1,7 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -31,6 +32,33 @@ public class DiningMenu extends AppCompatActivity {
 
         TextView name = (TextView)findViewById(R.id.selectedDiningName);
         name.setText(diningName);
+
+        ImageView directions = (ImageView)findViewById(R.id.GetDirections);
+        directions.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if(restaurantId == 1){
+                    directToPlace(1.3015317,103.8342214);
+                }else if(restaurantId == 2){
+                    directToPlace(1.3044001,103.8294458);
+                }else if(restaurantId == 3){
+                    directToPlace(1.3044001,103.8228797);
+                }else if(restaurantId == 4){
+                    directToPlace(1.3019241,103.8480892);
+                }else if(restaurantId == 5){
+                    directToPlace(1.2995103,103.8519873);
+                }else if(restaurantId == 6){
+                    directToPlace(1.2861563,103.8274415);
+                }else if(restaurantId == 7){
+                    directToPlace(1.2864689,103.8251236);
+                }else if(restaurantId == 8){
+                    directToPlace(1.3343797,103.8874858);
+                }else if(restaurantId == 9){
+                    directToPlace(1.2992771,103.8454868);
+                }else if(restaurantId == 10){
+                    directToPlace(1.3005142,103.8354485);
+                }
+            }
+        });
 
         CardView promoMeal = (CardView) findViewById(R.id.cardViewPromo);
         CardView main = (CardView)findViewById(R.id.cardViewMain);
@@ -109,5 +137,13 @@ public class DiningMenu extends AppCompatActivity {
         intent.putExtra("restaurantId", restaurantId);
         intent.putExtra("selection",value);
         startActivity(intent);
+    }
+
+    public void directToPlace(double lat, double lng){
+        String toParse = "google.navigation:q=" + lat + ", " + lng + "&mode=w";
+        Uri gmmIntentUri = Uri.parse(toParse);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

@@ -105,8 +105,9 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
                 intent.putExtra("rideInfo",rides.getAttractionInfo());
                 intent.putExtra("rideCategory", rides.getAttractionCategory());
                 intent.putExtra("rideAge", rides.getAttractionAgeRange());
-                intent.putExtra("rideQueueTime", rides.getAttractionQueue());
+                intent.putExtra("rideQueueTime", rides.getAttractionQueue()+ "mins");
                 intent.putExtra("rideImage", rides.getImageUrl());
+                intent.putExtra("rideId", rides.getId());
 
                 // When the person click should go to the DiningMenu page
                 mContext.startActivity(intent);
