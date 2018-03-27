@@ -320,17 +320,21 @@ public class GuideMapFragment extends Fragment {
 
                 }
 
-                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -88);
-                float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 115);
+                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -100);
+                float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 135);
                 //-208, 285
                 popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualAttractionX+xOffsetPxPopup), (int)(actualAttractionY+yOffsetPxPopup));
                 //popupWindow.showAsDropDown(view, (int)xViewTap, (int)yViewTap, Gravity.CENTER_HORIZONTAL);
                 currentOpenPopupWindow = popupWindow;
 
-                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -20);
-                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), 82);
+                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -50);
+                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), -150);
+
+                System.out.println("offset x: " + actualAttractionX+xOffsetPx);
+                System.out.println("offset y: " + actualAttractionY+yOffsetPx);
                 //-55, 202
                 avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
+                //avi.setPadding(0,100,0,0);
                 avi.show();
                 avi.setVisibility(View.VISIBLE);
                 System.out.println("AVI: "+ avi.getX() + ", " + avi.getY());

@@ -9,24 +9,24 @@
             android:icon="@drawable/mapsflags"
             android:title="Guide Map" />
         <item
-            android:id="@+id/dining"
-            android:icon="@drawable/forkknife"
-            android:title="Dining" />
-        <item
             android:id="@+id/attractions"
             android:icon="@drawable/rollercoaster"
             android:title="Attractions" />
         <item
-            android:id="@+id/itinerary"
+            android:id="@+id/dining"
+            android:icon="@drawable/forkknife"
+            android:title="Dining" />
+        <item
+            android:id="@+id/arphototaking"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="AR Photo Taking" />
+        <item
+            android:id="@+id/orders"
             android:icon="@drawable/shoppinglist"
-            android:title="Itinerary" />
+            android:title="My Orders" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />
-        <item
-            android:id="@+id/merchandise"
-            android:icon="@drawable/shoppingcart"
-            android:title="Merchandise" />
     </group>
 </menu>

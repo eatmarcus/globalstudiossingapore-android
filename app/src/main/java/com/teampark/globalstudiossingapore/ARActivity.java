@@ -34,6 +34,7 @@ import com.viro.core.AnimationTransaction;
 import com.viro.core.AsyncObject3DListener;
 import com.viro.core.ClickListener;
 import com.viro.core.ClickState;
+import com.viro.core.DirectionalLight;
 import com.viro.core.DragListener;
 import com.viro.core.GestureRotateListener;
 import com.viro.core.Material;
@@ -238,8 +239,8 @@ public class ARActivity extends AppCompatActivity {
         spotlight.setPosition(new Vector(0, -0.25f, 0));
         spotlight.setColor(Color.WHITE);
         spotlight.setDirection(new Vector(0, 0, -1));
-        spotlight.setAttenuationStartDistance(10);
-        spotlight.setAttenuationEndDistance(15);
+        spotlight.setAttenuationStartDistance(5);
+        spotlight.setAttenuationEndDistance(10);
         spotlight.setInnerAngle(5);
         spotlight.setOuterAngle(20);
 
@@ -248,7 +249,18 @@ public class ARActivity extends AppCompatActivity {
         spotlight.setShadowMapSize(1024);
         spotlight.setShadowNearZ(1);
         spotlight.setShadowFarZ(10);
+        spotlight.setShadowOpacity(0.3f);
         arScene.getRootNode().addLight(spotlight);
+
+//        DirectionalLight light = new DirectionalLight();
+//        light.setColor(Color.WHITE);
+//        light.setDirection(new Vector(0, -1, 0));
+//        light.setShadowOrthographicPosition(new Vector(0, 4, 0));
+//        light.setShadowOrthographicSize(10);
+//        light.setShadowNearZ(1);
+//        light.setShadowFarZ(4);
+//        light.setCastsShadow(true);
+//        arScene.getRootNode().addLight(light);
 
         // Setup our 3D and HUD controls
         initARCrosshair(arScene);
@@ -358,16 +370,16 @@ public class ARActivity extends AppCompatActivity {
         mProductModelGroup = new Node();
 
         // Create a light to be shined on the model.
-        Spotlight spotLight = new Spotlight();
-        spotLight.setInfluenceBitMask(1);
-        spotLight.setPosition(new Vector(0,5,0));
-        spotLight.setCastsShadow(true);
-        spotLight.setAttenuationEndDistance(7);
-        spotLight.setAttenuationStartDistance(4);
-        spotLight.setDirection(new Vector(0,-1,0));
-        spotLight.setIntensity(6000);
-        spotLight.setShadowOpacity(0.35f);
-        mProductModelGroup.addLight(spotLight);
+//        Spotlight spotLight = new Spotlight();
+//        spotLight.setInfluenceBitMask(1);
+//        spotLight.setPosition(new Vector(0,5,0));
+//        spotLight.setCastsShadow(true);
+//        spotLight.setAttenuationEndDistance(7);
+//        spotLight.setAttenuationStartDistance(4);
+//        spotLight.setDirection(new Vector(0,-1,0));
+//        spotLight.setIntensity(6000);
+//        spotLight.setShadowOpacity(0.35f);
+//        mProductModelGroup.addLight(spotLight);
 
         // Create a mock shadow plane in AR
         Node shadowNode = new Node();
