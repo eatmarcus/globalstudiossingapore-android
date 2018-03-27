@@ -9,84 +9,114 @@
 
     <ImageView
         android:id="@+id/attractionImage"
-        android:layout_width="419dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/attractions2" />
+        app:srcCompat="@drawable/attractions2"
+        android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/attractionName"
+    <android.support.v7.widget.CardView
+        android:id="@+id/attractionDetails"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
-        android:text="Attraction Name"
-        android:textSize="25sp"
+        android:layout_height="235dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attractionImage" />
 
-    <TextView
-        android:id="@+id/attractionInformation"
-        android:layout_width="0dp"
-        android:layout_height="125dp"
-        android:textSize="20sp"
-        android:text="Attraction Information"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attractionName" />
+        app:layout_constraintTop_toBottomOf="@+id/attractionImage"
+        app:layout_constraintVertical_weight="1">
 
-    <TextView
-        android:id="@+id/attractionCategory"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
-        android:text="Attraction Category"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attractionInformation" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/attractionName"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:text="Attraction Name"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/ageIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attractionCategory"
-        app:srcCompat="@drawable/age" />
+        <TextView
+            android:id="@+id/attractionInformation"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:textSize="15sp"
+            android:layout_marginStart="4dp"
+            android:text="Attraction Information"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attractionName" />
 
-    <TextView
-        android:id="@+id/attractionAge"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:text="Age Group"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ageIcon"
-        app:layout_constraintTop_toBottomOf="@+id/attractionCategory" />
+        <TextView
+            android:id="@+id/attractionCategory"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="Attraction Category"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attractionInformation" />
 
-    <ImageView
-        android:id="@+id/clockIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attractionAge"
-        app:srcCompat="@drawable/clock" />
+        <ImageView
+            android:id="@+id/ageIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attractionCategory"
+            app:srcCompat="@drawable/age" />
 
-    <TextView
-        android:id="@+id/queueTime"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/clockIcon"
-        app:layout_constraintTop_toBottomOf="@+id/attractionAge" />
+        <TextView
+            android:id="@+id/attractionAge"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="Age Group"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ageIcon"
+            app:layout_constraintTop_toBottomOf="@+id/attractionCategory" />
+
+        <ImageView
+            android:id="@+id/clockIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attractionAge"
+            app:srcCompat="@drawable/clock" />
+
+        <TextView
+            android:id="@+id/queueTime"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:textSize="15sp"
+            android:text="Queue Time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clockIcon"
+            app:layout_constraintTop_toBottomOf="@+id/attractionAge" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewMap"
@@ -103,7 +133,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clockIcon"
+        app:layout_constraintTop_toBottomOf="@+id/attractionDetails"
         app:layout_constraintVertical_weight="1">
 
         <android.support.constraint.ConstraintLayout
@@ -114,20 +144,23 @@
                 android:id="@+id/mapIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:layout_constraintEnd_toStartOf="@+id/directionIcon"
+                app:srcCompat="@drawable/mapicon" />
 
             <TextView
                 android:id="@+id/mapText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Find on Map"
+                android:text="Locate on Map"
+                android:layout_marginStart="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/mapDirections"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mapIcon" />
+                app:layout_constraintTop_toBottomOf="@+id/mapIcon"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
             <ImageView
                 android:id="@+id/directionIcon"
@@ -138,14 +171,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@drawable/getdirections" />
 
             <TextView
                 android:id="@+id/mapDirections"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Get Directions"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/mapText"
                 app:layout_constraintTop_toBottomOf="@+id/directionIcon" />

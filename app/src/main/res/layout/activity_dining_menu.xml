@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/diningIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@mipmap/ic_launcher"
@@ -38,9 +38,20 @@
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/GetDirections"
             app:layout_constraintStart_toEndOf="@+id/diningIcon"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/GetDirections"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/getdirections"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="getDirections"/>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.CardView

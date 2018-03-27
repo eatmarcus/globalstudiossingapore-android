@@ -110,6 +110,15 @@ public class AttractionsFragment extends Fragment {
         // Lookup the recycler in activity layout
         rvAttractions = (RecyclerView)view.findViewById(R.id.attractionList);
 
+        // Initialize dining places
+        attractionsList = Attractions.createAttractionList();
+        // Create adapter passing in the sample user data
+        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(),attractionsList);
+        // Attach the adapter to the recyclerview to populate items
+        rvAttractions.setAdapter(adapter);
+        rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
         //
         //RETRIEVE ALL RECORDS
         //
@@ -161,7 +170,7 @@ public class AttractionsFragment extends Fragment {
             }
 
         }
-        attractionsList = Attractions.createAttractionList();
+        //attractionsList = Attractions.createAttractionList();
 
         for(int i = 0; i < attractionsList.size(); i++){
             Attractions a = attractionsList.get(i);
