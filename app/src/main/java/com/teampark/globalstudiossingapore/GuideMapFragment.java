@@ -162,7 +162,7 @@ public class GuideMapFragment extends Fragment {
         float minScale = photoView.getMinimumScale();
         float maxScale = photoView.getMaximumScale();
         float avgScale = (minScale + maxScale) / 2;
-        photoView.setScale(avgScale, Xcoordinates, Ycoordinates, false);
+        photoView.setScale(avgScale, Xcoordinates, Ycoordinates, true);
     }
 
     private void handleResponse(ArrayList<BeaconRecord> beaconRecords) {
