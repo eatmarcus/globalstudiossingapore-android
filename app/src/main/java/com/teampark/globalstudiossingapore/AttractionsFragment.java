@@ -113,7 +113,7 @@ public class AttractionsFragment extends Fragment {
         // Initialize dining places
         attractionsList = Attractions.createAttractionList();
         // Create adapter passing in the sample user data
-        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(),attractionsList);
+        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(), getActivity(), attractionsList);
         // Attach the adapter to the recyclerview to populate items
         rvAttractions.setAdapter(adapter);
         rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -195,7 +195,7 @@ public class AttractionsFragment extends Fragment {
 
         Collections.sort(attractionsList, new Attractions());
         // Create adapter passing in the sample user data
-        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(), attractionsList);
+        AttractionsAdapter adapter = new AttractionsAdapter(getActivity(), getActivity(), attractionsList);
         // Attach the adapter to the recyclerview to populate items
         rvAttractions.setAdapter(adapter);
         rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));

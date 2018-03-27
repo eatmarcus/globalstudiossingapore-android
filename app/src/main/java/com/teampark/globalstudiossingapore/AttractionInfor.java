@@ -3,6 +3,8 @@ package com.teampark.globalstudiossingapore;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -10,10 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teampark.globalstudiossingapore.Entity.Attraction;
 
-public class AttractionInfor extends AppCompatActivity {
+public class AttractionInfor extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +50,15 @@ public class AttractionInfor extends AppCompatActivity {
         TextView rideTime = (TextView)findViewById(R.id.queueTime);
         rideTime.setText(time);
 
-//        ImageView map = (ImageView)findViewById(R.id.mapIcon);
-//        map.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                Intent intent = new Intent(AttractionInfor.this,MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        ImageView map = (ImageView)findViewById(R.id.mapIcon);
+        map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("attractionName", rideName.getText());
+                setResult(1, returnIntent);
+                finish();
+            }
+        });
 
         ImageView directions = (ImageView)findViewById(R.id.directionIcon);
         directions.setOnClickListener(new View.OnClickListener() {
