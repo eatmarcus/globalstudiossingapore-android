@@ -100,28 +100,13 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
         itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                String attractionName = rides.getAttractionName();
                 Intent intent = new Intent(mContext,AttractionInfor.class);
                 intent.putExtra("rideName", rides.getAttractionName());
                 intent.putExtra("rideInfo",rides.getAttractionInfo());
                 intent.putExtra("rideCategory", rides.getAttractionCategory());
                 intent.putExtra("rideAge", rides.getAttractionAgeRange());
-                intent.putExtra("rideQueueTime", "< "+ rides.getAttractionQueue() + " mins");
+                intent.putExtra("rideQueueTime", rides.getAttractionQueue());
                 intent.putExtra("rideImage", rides.getImageUrl());
-
-                if(attractionName.equals("Raging River")){
-                    intent.putExtra("coordinates", "1.2543797, 103.8231613");
-                }else if(attractionName.equals("Dare Devil")){
-                    intent.putExtra("coordinates", "1.2540289,103.8230367");
-                }else if(attractionName.equals("Sponglash Wave Pool")){
-                    intent.putExtra("coordinates", "1.253302,103.8227258");
-                }else if(attractionName.equals("Steamin' Demon")){
-                    intent.putExtra("coordinates", "1.2532943,103.8220809");
-                }else if(attractionName.equals("Thomie's Mine Train")){
-                    intent.putExtra("coordinates", "1.2540289,103.8230367");
-                }else{
-                    intent.putExtra("coordinates", "1.253882,103.822778");
-                }
 
                 // When the person click should go to the DiningMenu page
                 mContext.startActivity(intent);

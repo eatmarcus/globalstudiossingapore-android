@@ -1,14 +1,12 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,18 +31,6 @@ public class DiningMenu extends AppCompatActivity {
 
         TextView name = (TextView)findViewById(R.id.selectedDiningName);
         name.setText(diningName);
-
-        Button getThere = (Button)findViewById(R.id.goThere);
-        getThere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String toParse = "google.navigation:q=1.253882,103.822778&mode=w";
-                Uri gmmIntentUri = Uri.parse(toParse);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
-        });
 
         CardView promoMeal = (CardView) findViewById(R.id.cardViewPromo);
         CardView main = (CardView)findViewById(R.id.cardViewMain);

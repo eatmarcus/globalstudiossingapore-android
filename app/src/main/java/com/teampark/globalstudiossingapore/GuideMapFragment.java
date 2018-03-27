@@ -278,15 +278,9 @@ public class GuideMapFragment extends Fragment {
                     timeValueTextView.setText(timeFor1);
                 }else if(tappedAttraction.getName().equals("Dare Devil")){
                     timeValueTextView.setText(timeFor2);
-                }else if(tappedAttraction.getName().equals("Raging River")){
-                    timeValueTextView.setText("< 10mins");
-                }else if(tappedAttraction.getName().equals("Sponglash Wave Pool")){
-                    timeValueTextView.setText("< 20mins");
-                }else if(tappedAttraction.getName().equals("Steamin' Demon")){
-                    timeValueTextView.setText("< 50mins");
+                }else{
+                    timeValueTextView.setText("< 5mins");
                 }
-
-
                 //Obtain actual position of the tapped region
                 MapPoint actualAttractionMapPoint = tappedAttraction.getMapCoordinates();
                 double actualAttractionX = actualAttractionMapPoint.getxCoordinate();
