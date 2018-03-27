@@ -49,7 +49,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
-        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener {
+        , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener,
+        OrdersFragment.OnFragmentInteractionListener{
 
     protected static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
@@ -244,14 +245,14 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, fragment);
             ft.commit();
-        } else if (id == R.id.itinerary) {
-            fragment = new ItineraryFragment();
+        } else if (id == R.id.orders) {
+            fragment = new OrdersFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, fragment);
             ft.commit();
         } else if (id == R.id.settings) {
 
-        } else if (id == R.id.merchandise) {
+        } else if (id == R.id.arphototaking) {
             fragment = new PhotoSelectionFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, fragment);
