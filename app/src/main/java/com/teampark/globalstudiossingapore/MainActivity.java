@@ -32,6 +32,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.teampark.globalstudiossingapore.Entity.Records;
 import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 import com.teampark.globalstudiossingapore.utility.DialogBuilder;
+import com.teampark.globalstudiossingapore.utility.NotificationUtil;
 import com.teampark.globalstudiossingapore.utility.SharedPrefsUtil;
 
 import java.util.HashMap;
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity
 
 //        Intent intent = new Intent(this, ARActivity.class);
 //        startActivity(intent);
+        NotificationUtil.countdownNotification(this, "Your chicken rice is ready!", 10);
 
 
     }
