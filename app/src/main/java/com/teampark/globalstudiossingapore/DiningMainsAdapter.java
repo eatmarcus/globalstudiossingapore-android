@@ -1,7 +1,9 @@
 package com.teampark.globalstudiossingapore;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.teampark.globalstudiossingapore.DAO.OrdersDAO;
 import com.teampark.globalstudiossingapore.Entity.DiningMainItem;
+import com.teampark.globalstudiossingapore.Entity.Order;
+import com.teampark.globalstudiossingapore.utility.DialogBuilder;
+import com.teampark.globalstudiossingapore.utility.NotificationUtil;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +50,8 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
         public ImageView imageView;
         public TextView price;
 
+        public CardView cardView;
+
         private Context context;
 
         // We also create a constructor that accepts the entire item row
@@ -55,6 +65,7 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
             information = (TextView)itemView.findViewById(R.id.mainDescription);
             imageView = (ImageView)itemView.findViewById(R.id.mainIcon);
             price = (TextView)itemView.findViewById(R.id.itemPrice);
+            cardView = itemView.findViewById(R.id.cardView);
 
             // Store the context
             this.context = context;
@@ -96,6 +107,34 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
         TextView textViewPrice = viewHolder.price;
         textViewPrice.setText(diningMainItem.getPrice());
+
+        CardView cardView = viewHolder.cardView;
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogBuilder.showDialog("Preorder Item", "You will be notified when your dish is ready for collection. Would you like to place an order?", mContext,
+                        "YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                Date currentTime = Calendar.getInstance().getTime();
+
+                                Order order = new Order(currentTime.toString(), "Restaurant", diningMainItem.getName(), diningMainItem.getPrice(), "Cooking", diningMainItem.getImage());
+                                OrdersDAO.addOrder(order);
+
+                                NotificationUtil.countdownNotification(mContext, "Your " + order.getFoodName() + " is now ready!", 10);
+
+                                // TODO: Show order fragment.
+                                //Intent intent = new Intent(mContext, )
+                            }
+                        }, "NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+            }
+        });
 
     }
 

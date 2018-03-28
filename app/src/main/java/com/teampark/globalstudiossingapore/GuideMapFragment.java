@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -65,9 +67,16 @@ public class GuideMapFragment extends Fragment {
 
     private PhotoView photoView;
 
+    private ConstraintLayout detailsConstraintLayout;
+
     PopupWindow currentOpenPopupWindow = null;
 
     public AVLoadingIndicatorView avi;
+    private AVLoadingIndicatorView aviThomie;
+    private AVLoadingIndicatorView aviSponglash;
+    private AVLoadingIndicatorView aviRaging;
+    private AVLoadingIndicatorView aviSteamin;
+    private AVLoadingIndicatorView aviDare;
 
     private static String url = "http://heyitsmong.com:8080/gss-server/api/";
     CompositeDisposable compositeDisposable;
@@ -113,14 +122,26 @@ public class GuideMapFragment extends Fragment {
 
         getActivity().setTitle("Guide Map");
 
+        aviDare = view.findViewById(R.id.aviDare);
+        aviRaging = view.findViewById(R.id.aviRaging);
+        aviSponglash = view.findViewById(R.id.aviSponglash);
+        aviSteamin = view.findViewById(R.id.aviSteamin);
+        aviThomie = view.findViewById(R.id.aviThomie);
+
         photoView = view.findViewById(R.id.photoView);
+        detailsConstraintLayout = view.findViewById(R.id.detailsConstraintLayout);
 
         photoView.setImageResource(R.drawable.map);
-        photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        photoView.setOnMatrixChangeListener(new MatrixChangeListener());
         photoView.setOnPhotoTapListener(new PhotoTapListener());
+        photoView.setOnMatrixChangeListener(new MatrixChangeListener());
+
+        photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         avi = view.findViewById(R.id.avi);
+
+
+
+
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -251,6 +272,8 @@ public class GuideMapFragment extends Fragment {
         public void onPhotoTap(ImageView view, float x, float y) {
             float xPercentage = x * 100f;
             float yPercentage = y * 100f;
+
+            System.out.println("Percentage: " + xPercentage + ", " + yPercentage);
             //
             // POPUP VIEW
             //
@@ -260,11 +283,20 @@ public class GuideMapFragment extends Fragment {
 
             final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
+//            Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
+//
+//            TextView rideNameTextView = popupView.findViewById(R.id.rideNameTextView);
+//            TextView descriptionTextView = popupView.findViewById(R.id.descriptionTextView);
+//            TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
 
-            TextView rideNameTextView = popupView.findViewById(R.id.rideNameTextView);
-            TextView descriptionTextView = popupView.findViewById(R.id.descriptionTextView);
-            TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
+            Button goThereButton = detailsConstraintLayout.findViewById(R.id.goThere);
+
+            TextView rideNameTextView = detailsConstraintLayout.findViewById(R.id.rideNameTextView);
+            TextView descriptionTextView = detailsConstraintLayout.findViewById(R.id.descriptionTextView);
+            TextView timeValueTextView = detailsConstraintLayout.findViewById(R.id.timeValueTextView);
+
+
+            detailsConstraintLayout.setVisibility(View.VISIBLE);
 
             //Done as OnViewTapListener is still not available, change to listener in future!!
             //Reverse calculate to obtain view tap region.
@@ -276,6 +308,7 @@ public class GuideMapFragment extends Fragment {
             //For Debugging Purposes
             System.out.println("IMAGE TAP REGION: X-"+x+", Y-"+y);
             System.out.println("VIEW TAP REGION: X-"+xViewTap+", Y-"+yViewTap);
+
 
             // Obtain Station from tapped position.
             // Returns null if there's no valid station at that tap.
@@ -336,24 +369,25 @@ public class GuideMapFragment extends Fragment {
 
                 }
 
-                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -100);
+                float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -70);
                 float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 135);
                 //-208, 285
                 popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualAttractionX+xOffsetPxPopup), (int)(actualAttractionY+yOffsetPxPopup));
                 //popupWindow.showAsDropDown(view, (int)xViewTap, (int)yViewTap, Gravity.CENTER_HORIZONTAL);
                 currentOpenPopupWindow = popupWindow;
 
-                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -50);
-                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), -150);
+                float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -10);
+                float yOffsetPx = ConverterUtility.dpToPx(getActivity(), -60);
 
-                System.out.println("offset x: " + actualAttractionX+xOffsetPx);
-                System.out.println("offset y: " + actualAttractionY+yOffsetPx);
+//                System.out.println("offset x: " + actualAttractionX+xOffsetPx);
+//                System.out.println("offset y: " + actualAttractionY+yOffsetPx);
                 //-55, 202
                 avi.setPadding((int)(actualAttractionX+xOffsetPx),(int)(actualAttractionY+yOffsetPx),0,0);
-                //avi.setPadding(0,100,0,0);
+                //avi.setPadding((int)(xViewTap+xOffsetPx),(int)(yViewTap+yOffsetPx),0,0);
+                //avi.setPadding(0,0,0,0);
                 avi.show();
                 avi.setVisibility(View.VISIBLE);
-                System.out.println("AVI: "+ avi.getX() + ", " + avi.getY());
+
 
             } else{
                 //Invalid Point
@@ -363,6 +397,7 @@ public class GuideMapFragment extends Fragment {
                     currentOpenPopupWindow.dismiss();
                     currentOpenPopupWindow = null;
                 }
+                detailsConstraintLayout.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -375,7 +410,10 @@ public class GuideMapFragment extends Fragment {
         if (currentOpenPopupWindow!=null){
             currentOpenPopupWindow.dismiss();
             currentOpenPopupWindow = null;
+
         }
+
+        detailsConstraintLayout.setVisibility(View.INVISIBLE);
     }
 
     private class MatrixChangeListener implements OnMatrixChangedListener {
@@ -384,6 +422,41 @@ public class GuideMapFragment extends Fragment {
         public void onMatrixChanged(RectF rect) {
             dismissPopupWindowWithEffect();
 
+            setAnimationPoint(aviRaging, rect, 0.46396226, 0.35501555 );
+            setAnimationPoint(aviThomie, rect, 0.2110371, 0.3987882 );
+            setAnimationPoint(aviSponglash, rect, 0.17878105, 0.7542211);
+            setAnimationPoint(aviSteamin, rect, 0.71214676, 0.42501387);
+            setAnimationPoint(aviDare, rect, 0.72232956, 0.78550935 );
+
         }
+
+    }
+
+    private void setAnimationPoint(AVLoadingIndicatorView avi, RectF displayRect, double x, double y) {
+
+        x = x * displayRect.width() + displayRect.left;
+        y = y * displayRect.height() + displayRect.top;
+
+        float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -70);
+        float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 135);
+
+//        float scale = photoView.getScale();
+
+        float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -10);
+        float yOffsetPx = ConverterUtility.dpToPx(getActivity(), -60);
+        //-55, 202
+        avi.setPadding((int)(x+xOffsetPx),(int)(y+yOffsetPx),0,0);
+        //avi.setPadding((int)(xViewTap+xOffsetPx),(int)(yViewTap+yOffsetPx),0,0);
+        //avi.setPadding(0,0,0,0);
+
+
+//        avi.setScaleX(scale);
+//        avi.setScaleY(scale);
+
+        avi.show();
+        avi.setVisibility(View.VISIBLE);
+
+
+
     }
 }
