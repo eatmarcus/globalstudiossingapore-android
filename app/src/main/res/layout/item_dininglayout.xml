@@ -27,7 +27,8 @@
             app:layout_constraintEnd_toStartOf="@+id/diningInfor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/fivefingers" />
+            app:srcCompat="@drawable/fivefingers"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/diningName"
@@ -41,7 +42,8 @@
             app:layout_constraintBottom_toTopOf="@+id/diningInfor"
             app:layout_constraintEnd_toStartOf="@+id/diningDist"
             app:layout_constraintStart_toEndOf="@+id/diningImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorTitle"/>
 
         <TextView
             android:id="@+id/diningInfor"
@@ -51,6 +53,7 @@
             android:layout_marginStart="8dp"
             android:text="TextView"
             android:textSize="10sp"
+            android:textColor="@color/colorMed"
             app:layout_constraintBottom_toTopOf="@+id/diningCategory"
             app:layout_constraintEnd_toStartOf="@+id/diningDist"
             app:layout_constraintStart_toEndOf="@+id/diningImage"
@@ -64,7 +67,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/diningInfor"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher"
+            android:textColor="@color/colorDes"/>
 
         <ImageView
             android:id="@+id/diningPriceRange2"
@@ -74,7 +78,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/diningPriceRange1"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher"
+            android:textColor="@color/colorDes"/>
 
         <ImageView
             android:id="@+id/diningPriceRange3"
@@ -84,7 +89,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/diningPriceRange2"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher"
+            android:textColor="@color/colorDes"/>
 
         <TextView
             android:id="@+id/diningDist"
@@ -97,7 +103,8 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorTitle"/>
 
         <TextView
             android:id="@+id/diningCategory"
@@ -109,7 +116,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/diningDist"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/diningPriceRange3" />
+            app:layout_constraintStart_toEndOf="@id/diningPriceRange3"
+            android:textColor="@color/colorDes"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -48,7 +48,8 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorTitle"/>
 
         <TextView
             android:id="@+id/attractionInformation"
@@ -59,7 +60,8 @@
             android:text="Attraction Information"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attractionName" />
+            app:layout_constraintTop_toBottomOf="@+id/attractionName"
+            android:textColor="@color/colorMed"/>
 
         <TextView
             android:id="@+id/attractionCategory"
@@ -71,7 +73,8 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attractionInformation" />
+            app:layout_constraintTop_toBottomOf="@+id/attractionInformation"
+            android:textColor="@color/colorDes"/>
 
         <ImageView
             android:id="@+id/ageIcon"
@@ -92,7 +95,8 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ageIcon"
-            app:layout_constraintTop_toBottomOf="@+id/attractionCategory" />
+            app:layout_constraintTop_toBottomOf="@+id/attractionCategory"
+            android:textColor="@color/colorTitle"/>
 
         <ImageView
             android:id="@+id/clockIcon"
@@ -113,7 +117,8 @@
             android:text="Queue Time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/clockIcon"
-            app:layout_constraintTop_toBottomOf="@+id/attractionAge" />
+            app:layout_constraintTop_toBottomOf="@+id/attractionAge"
+            android:textColor="@color/colorTitle"/>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

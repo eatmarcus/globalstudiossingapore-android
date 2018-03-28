@@ -27,7 +27,8 @@
             app:layout_constraintEnd_toStartOf="@+id/attractionInfor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/fivefingers" />
+            app:srcCompat="@drawable/fivefingers"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/attractionName"
@@ -41,7 +42,8 @@
             app:layout_constraintBottom_toTopOf="@+id/attractionInfor"
             app:layout_constraintEnd_toStartOf="@+id/attractionQueue"
             app:layout_constraintStart_toEndOf="@+id/attractionImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorTitle"/>
 
         <TextView
             android:id="@+id/attractionInfor"
@@ -54,7 +56,8 @@
             app:layout_constraintBottom_toTopOf="@+id/attractionCategory"
             app:layout_constraintEnd_toStartOf="@+id/attractionQueue"
             app:layout_constraintStart_toEndOf="@+id/attractionImage"
-            app:layout_constraintTop_toBottomOf="@id/attractionName" />
+            app:layout_constraintTop_toBottomOf="@id/attractionName"
+            android:textColor="@color/colorMed"/>
 
         <TextView
             android:id="@+id/attractionQueue"
@@ -67,7 +70,8 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorTitle"/>
 
         <TextView
             android:id="@+id/attractionCategory"
@@ -79,7 +83,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/attractionQueue"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/attractionInfor" />
+            app:layout_constraintStart_toStartOf="@id/attractionInfor"
+            android:textColor="@color/colorDes"/>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
