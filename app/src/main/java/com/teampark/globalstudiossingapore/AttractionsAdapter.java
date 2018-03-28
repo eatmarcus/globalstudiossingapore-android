@@ -1,5 +1,6 @@
 package com.teampark.globalstudiossingapore;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -18,11 +19,13 @@ import java.util.List;
 public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.ViewHolder>{
 
     private List<Attractions> attractions;
+    private Activity mActivity;
     private Context mContext;
 
     // Pass in the diningPlaces array into the constructor
-    public AttractionsAdapter(Context context,List<Attractions> attractionsList){
+    public AttractionsAdapter(Context context, Activity activity, List<Attractions> attractionsList){
         mContext = context;
+        mActivity = activity;
         attractions = attractionsList;
     }
 
@@ -110,8 +113,11 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
                 intent.putExtra("rideId", rides.getId());
 
                 // When the person click should go to the DiningMenu page
-                mContext.startActivity(intent);
+//               mContext.startActivity(intent);
+                mActivity.startActivityForResult(intent, 1);
             }
+
+
         });
 
     }
@@ -120,4 +126,6 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
     public int getItemCount() {
         return attractions.size();
     }
+
+
 }

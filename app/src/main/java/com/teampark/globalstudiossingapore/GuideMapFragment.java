@@ -122,6 +122,15 @@ public class GuideMapFragment extends Fragment {
 
         avi = view.findViewById(R.id.avi);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String coordinates = bundle.getString("coordinates");
+            coordinates.split(",");
+            Float Xcoordinates = Float.parseFloat(coordinates.split(",")[0]);
+            Float Ycoordinates = Float.parseFloat(coordinates.split(",")[1]);
+            zoomToArea(Xcoordinates, Ycoordinates);
+        }
+
         //
         //RETRIEVE ALL RECORDS
         //
@@ -147,6 +156,13 @@ public class GuideMapFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void zoomToArea(Float Xcoordinates, Float Ycoordinates) {
+        float minScale = photoView.getMinimumScale();
+        float maxScale = photoView.getMaximumScale();
+        float avgScale = (minScale + maxScale) / 2;
+        photoView.setScale(avgScale, Xcoordinates, Ycoordinates, true);
     }
 
     private void handleResponse(ArrayList<BeaconRecord> beaconRecords) {
@@ -370,5 +386,4 @@ public class GuideMapFragment extends Fragment {
 
         }
     }
-
 }

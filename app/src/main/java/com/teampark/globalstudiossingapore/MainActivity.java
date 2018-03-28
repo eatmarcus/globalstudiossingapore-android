@@ -32,6 +32,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.teampark.globalstudiossingapore.Entity.Records;
 import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
 import com.teampark.globalstudiossingapore.utility.DialogBuilder;
+import com.teampark.globalstudiossingapore.utility.NotificationUtil;
 import com.teampark.globalstudiossingapore.utility.SharedPrefsUtil;
 
 import java.util.HashMap;
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity
 
 //        Intent intent = new Intent(this, ARActivity.class);
 //        startActivity(intent);
+        NotificationUtil.countdownNotification(this, "Your chicken rice is ready!", 10);
 
 
     }
@@ -365,5 +367,56 @@ public class MainActivity extends AppCompatActivity
     public void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == 1){
+            String ride = data.getStringExtra("attractionName");
+            Bundle args = new Bundle();
+            if(ride.equals("Thomie's Mine Train")){
+                //X-0.2110371, Y-0.3987882
+                args.putString("coordinates","0.2110371,0.3987882");
+                Fragment fragment = new GuideMapFragment();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }else if(ride.equals("Dare Devil")){
+                //X-0.72232956, Y-0.78550935
+                args.putString("coordinates","0.72232956,0.78550935");
+                Fragment fragment = new GuideMapFragment();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }else if(ride.equals("Raging River")){
+                //X-0.46396226, Y-0.35501555
+                args.putString("coordinates","0.46396226,0.35501555");
+                Fragment fragment = new GuideMapFragment();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }else if(ride.equals("Sponglash Wave Pool")){
+                //X-0.17878105, Y-0.7542211
+                args.putString("coordinates","0.17878105,0.7542211");
+                Fragment fragment = new GuideMapFragment();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }else if(ride.equals("Steaming Demon")){
+                //X-0.71214676, Y-0.42501387
+                args.putString("coordinates","0.71214676,0.42501387");
+                Fragment fragment = new GuideMapFragment();
+                fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }
+        }
     }
 }
