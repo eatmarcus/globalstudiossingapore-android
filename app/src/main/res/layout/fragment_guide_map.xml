@@ -107,12 +107,15 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/rollercoaster"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gss2"
+            android:tint="@color/alignment_marker_color"
+            android:tintMode="screen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -136,7 +139,7 @@
         android:layout_width="0dp"
         android:layout_height="180dp"
         android:background="@android:color/white"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -160,6 +163,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timeValueTextView" />
 
+        <Button
+            android:id="@+id/viewDetails"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Get There"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/goThere"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeValueTextView" />
+
         <TextView
             android:id="@+id/waitingTime"
             android:layout_width="wrap_content"
@@ -176,7 +198,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toStartOf="@+id/timeValueTextView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewDetails"
             app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
         <ImageView
