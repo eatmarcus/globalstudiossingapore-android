@@ -88,7 +88,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
         textViewInfo.setText(rides.getAttractionInfo());
 
         TextView textViewQueue = viewHolder.queue;
-        textViewQueue.setText(rides.getAttractionQueue()+"");
+        textViewQueue.setText(rides.getAttractionQueue()+" mins");
 
         TextView textViewCat = viewHolder.category;
         textViewCat.setText(rides.getAttractionCategory());
@@ -108,7 +108,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
                 intent.putExtra("rideInfo",rides.getAttractionInfo());
                 intent.putExtra("rideCategory", rides.getAttractionCategory());
                 intent.putExtra("rideAge", rides.getAttractionAgeRange());
-                intent.putExtra("rideQueueTime", rides.getAttractionQueue()+ "mins");
+                intent.putExtra("rideQueueTime", rides.getAttractionQueue()+ " mins");
                 intent.putExtra("rideImage", rides.getImageUrl());
                 intent.putExtra("rideId", rides.getId());
 
