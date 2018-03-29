@@ -2,9 +2,7 @@
 <resources>
 
     <color name="colorExtra1">#C05640</color>
-
     <color name="colorExtra2">#1ECFD6</color>
-
     <color name="acolorPrimary">#F49F05</color>
     <color name="acolorPrimaryDark">#F18904</color>
     <color name="acolorAccent">#B74900</color>
