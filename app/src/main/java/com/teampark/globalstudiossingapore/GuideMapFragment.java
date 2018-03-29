@@ -84,6 +84,7 @@ public class GuideMapFragment extends Fragment {
     String timeFor1;
     String timeFor2;
 
+    ArrayList<Attractions> attractionsList;
     public GuideMapFragment() {
         // Required empty public constructor
     }
@@ -122,6 +123,7 @@ public class GuideMapFragment extends Fragment {
 
         getActivity().setTitle("Guide Map");
 
+
         aviDare = view.findViewById(R.id.aviDare);
         aviRaging = view.findViewById(R.id.aviRaging);
         aviSponglash = view.findViewById(R.id.aviSponglash);
@@ -138,9 +140,7 @@ public class GuideMapFragment extends Fragment {
         photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         avi = view.findViewById(R.id.avi);
-
-
-
+        attractionsList = Attractions.createAttractionList();
 
 
         Bundle bundle = this.getArguments();
@@ -211,6 +211,8 @@ public class GuideMapFragment extends Fragment {
             }
 
         }
+        int time1 = Integer.parseInt(timeFor1);
+        int time2 = Integer.parseInt(timeFor2);
     }
 
     private void handleError(Throwable error) {
@@ -265,6 +267,27 @@ public class GuideMapFragment extends Fragment {
         startActivity(mapIntent);
     }
 
+    public void viewDetails(Attractions rides){
+        Intent intent = new Intent(getContext() ,AttractionInfor.class);
+        intent.putExtra("rideName", rides.getAttractionName());
+        intent.putExtra("rideInfo",rides.getAttractionInfo());
+        intent.putExtra("rideCategory", rides.getAttractionCategory());
+        intent.putExtra("rideAge", rides.getAttractionAgeRange());
+        if(rides.getAttractionName().equals("Thomie's Mine Train")){
+            intent.putExtra("rideQueueTime", timeFor1);
+        }else if(rides.getAttractionName().equals("Dare Devil")){
+            intent.putExtra("rideQueueTime", timeFor2);
+        }else{
+            intent.putExtra("rideQueueTime", rides.getAttractionQueue()+ " mins");
+        }
+        intent.putExtra("rideImage", rides.getImageUrl());
+        intent.putExtra("rideId", rides.getId());
+
+        // When the person click should go to the DiningMenu page
+//               mContext.startActivity(intent);
+        getActivity().startActivityForResult(intent, 1);
+    }
+
     private class PhotoTapListener implements OnPhotoTapListener {
 
 
@@ -278,10 +301,10 @@ public class GuideMapFragment extends Fragment {
             // POPUP VIEW
             //
             //Open Popup (map_popup.xml)
-            LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View popupView = layoutInflater.inflate(R.layout.map_popup, null);
+//            LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            View popupView = layoutInflater.inflate(R.layout.map_popup, null);
 
-            final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 //            Button goThereButton = (Button) popupView.findViewById(R.id.goThere);
 //
@@ -290,6 +313,7 @@ public class GuideMapFragment extends Fragment {
 //            TextView timeValueTextView = popupView.findViewById(R.id.timeValueTextView);
 
             Button goThereButton = detailsConstraintLayout.findViewById(R.id.goThere);
+            Button viewD = detailsConstraintLayout.findViewById(R.id.viewDetails);
 
             TextView rideNameTextView = detailsConstraintLayout.findViewById(R.id.rideNameTextView);
             TextView descriptionTextView = detailsConstraintLayout.findViewById(R.id.descriptionTextView);
@@ -361,6 +385,24 @@ public class GuideMapFragment extends Fragment {
                     }
                 });
 
+                viewD.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String attractionName = tappedAttraction.getName();
+                        Attractions a = null;
+                        for(Attractions temp: attractionsList){
+                            if(temp.getAttractionName().equals(attractionName)){
+                                a = temp;
+                            }else if(temp.getAttractionName().equals("Steaming Demon") && attractionName.equals("Steamin' Demon")){
+                                a = temp;
+                            }
+                        }
+                        if(a != null){
+                            viewDetails(a);
+                        }
+                    }
+                });
+
                 //Display on UI
                 //180 and 125 are hardcoded values, height and width of the popup windows to offset and centralise!
                 if (currentOpenPopupWindow!=null){
@@ -372,9 +414,9 @@ public class GuideMapFragment extends Fragment {
                 float xOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), -70);
                 float yOffsetPxPopup = ConverterUtility.dpToPx(getActivity(), 135);
                 //-208, 285
-                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualAttractionX+xOffsetPxPopup), (int)(actualAttractionY+yOffsetPxPopup));
+//                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int)(actualAttractionX+xOffsetPxPopup), (int)(actualAttractionY+yOffsetPxPopup));
                 //popupWindow.showAsDropDown(view, (int)xViewTap, (int)yViewTap, Gravity.CENTER_HORIZONTAL);
-                currentOpenPopupWindow = popupWindow;
+//                currentOpenPopupWindow = popupWindow;
 
                 float xOffsetPx = ConverterUtility.dpToPx(getActivity(), -10);
                 float yOffsetPx = ConverterUtility.dpToPx(getActivity(), -60);
