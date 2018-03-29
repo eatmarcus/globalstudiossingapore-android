@@ -70,42 +70,42 @@ public class DiningMenu extends AppCompatActivity {
         promoMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 1);
+                openDiningMain(restaurantId, diningName, 1);
             }
         });
 
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 2);
+                openDiningMain(restaurantId,diningName, 2);
             }
         });
 
         appetizer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 3);
+                openDiningMain(restaurantId,diningName, 3);
             }
         });
 
         dessert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 4);
+                openDiningMain(restaurantId,diningName, 4);
             }
         });
 
         beverage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 5);
+                openDiningMain(restaurantId,diningName, 5);
             }
         });
 
         snack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDiningMain(restaurantId, 6);
+                openDiningMain(restaurantId,diningName, 6);
             }
         });
 
@@ -131,10 +131,11 @@ public class DiningMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openDiningMain(int restaurantId, int value){
+    private void openDiningMain(int restaurantId, String restaurantName, int value){
         // Go to the dining mains view
         Intent intent = new Intent(DiningMenu.this,DiningMains.class);
         intent.putExtra("restaurantId", restaurantId);
+        intent.putExtra("restaurantName", restaurantName);
         intent.putExtra("selection",value);
         startActivity(intent);
     }

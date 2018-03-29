@@ -85,6 +85,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(OrdersAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
+        System.out.println(orderList.get(position));
         Order order = orderList.get(position);
 
         // Set item views based on your views and data model

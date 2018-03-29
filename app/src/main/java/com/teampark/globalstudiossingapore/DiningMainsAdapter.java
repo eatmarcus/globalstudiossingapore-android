@@ -3,6 +3,7 @@ package com.teampark.globalstudiossingapore;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,11 +31,13 @@ import java.util.List;
 public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.ViewHolder> {
 
     private List<DiningMainItem> diningMainItems;
+    private String restaurantName;
     private Context mContext;
 
     // Pass in the diningPlaces array into the constructor
-    public DiningMainsAdapter(Context context, List<DiningMainItem> diningMainItems){
+    public DiningMainsAdapter(Context context, String restaurantName, List<DiningMainItem> diningMainItems){
         mContext = context;
+        this.restaurantName = restaurantName;
         this.diningMainItems = diningMainItems;
     }
 
@@ -119,10 +122,32 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
                                 Date currentTime = Calendar.getInstance().getTime();
 
-                                Order order = new Order(currentTime.toString(), "Restaurant", diningMainItem.getName(), diningMainItem.getPrice(), "Cooking", diningMainItem.getImage());
+                                String dateTimeString = currentTime.toString();
+                                dateTimeString = dateTimeString.substring(0, dateTimeString.indexOf("GMT"));
+
+                                Order order = new Order(dateTimeString, restaurantName, diningMainItem.getName(), diningMainItem.getPrice(), "Cooking", diningMainItem.getImage());
                                 OrdersDAO.addOrder(order);
 
-                                NotificationUtil.countdownNotification(mContext, "Your " + order.getFoodName() + " is now ready!", 10);
+                                int timeInSeconds = 10;
+
+                                NotificationUtil.countdownNotification(mContext, "Your " + order.getFoodName() + " is now ready!", timeInSeconds);
+
+                                new CountDownTimer(timeInSeconds * 1000, 1000) {
+
+                                    public void onTick(long millisUntilFinished) {
+//                                      mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+                                    }
+
+                                    public void onFinish() {
+                                        OrdersDAO.updateOrder(order, "Ready");
+
+                                        notifyDataSetChanged();
+
+                                    }
+                                }.start();
+
+
+
 
                                 // TODO: Show order fragment.
                                 //Intent intent = new Intent(mContext, )

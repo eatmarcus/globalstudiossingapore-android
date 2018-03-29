@@ -36,6 +36,7 @@ public class SharedPrefsUtil {
         set(key, json);
     }
 
+
     private static void set(String key, String value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
