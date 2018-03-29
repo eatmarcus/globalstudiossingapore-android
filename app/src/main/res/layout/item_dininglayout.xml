@@ -38,7 +38,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/diningInfor"
             app:layout_constraintEnd_toStartOf="@+id/diningDist"
             app:layout_constraintStart_toEndOf="@+id/diningImage"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/diningInfor"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="30dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:text="TextView"
