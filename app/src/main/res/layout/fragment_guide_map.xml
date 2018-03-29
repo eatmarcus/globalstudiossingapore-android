@@ -139,7 +139,7 @@
         android:layout_width="0dp"
         android:layout_height="180dp"
         android:background="@android:color/white"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -159,8 +159,8 @@
             android:paddingRight="8dp"
             android:text="Get There"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewDetails"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timeValueTextView" />
 
         <Button
@@ -176,7 +176,7 @@
             android:elevation="2dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="Get There"
+            android:text="View Details"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/goThere"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +198,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toStartOf="@+id/timeValueTextView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/viewDetails"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
         <ImageView
