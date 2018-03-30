@@ -137,7 +137,7 @@ public class DiningMenu extends AppCompatActivity {
         intent.putExtra("restaurantId", restaurantId);
         intent.putExtra("restaurantName", restaurantName);
         intent.putExtra("selection",value);
-        startActivity(intent);
+        startActivityForResult(intent,2);
     }
 
     public void directToPlace(double lat, double lng){
@@ -146,5 +146,18 @@ public class DiningMenu extends AppCompatActivity {
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2){
+            if (resultCode == RESULT_OK){
+                Intent goBack = new Intent();
+                setResult(RESULT_OK, goBack);
+                DiningMenu.this.finish();
+            }
+        }
     }
 }

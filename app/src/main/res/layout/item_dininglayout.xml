@@ -83,14 +83,14 @@
 
         <ImageView
             android:id="@+id/diningPriceRange3"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginBottom="4dp"
+            android:textColor="@color/colorDes"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/diningPriceRange2"
-            app:srcCompat="@mipmap/ic_launcher"
-            android:textColor="@color/colorDes"/>
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/diningDist"

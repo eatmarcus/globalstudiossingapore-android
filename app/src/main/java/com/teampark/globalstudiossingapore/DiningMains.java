@@ -57,7 +57,7 @@ public class DiningMains extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
         // Create adapter passing in the sample user data
-        DiningMainsAdapter adapter = new DiningMainsAdapter(this, restaurantName, diningMainItems);
+        DiningMainsAdapter adapter = new DiningMainsAdapter(this, this, restaurantName, diningMainItems);
         // Attach the adapter to the recyclerview to populate items
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

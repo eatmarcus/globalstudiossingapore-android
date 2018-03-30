@@ -1,5 +1,6 @@
 package com.teampark.globalstudiossingapore;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Theresa Lee on 3/5/2018.
  */
@@ -32,11 +35,13 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
     private List<DiningMainItem> diningMainItems;
     private String restaurantName;
+    private Activity activity;
     private Context mContext;
 
     // Pass in the diningPlaces array into the constructor
-    public DiningMainsAdapter(Context context, String restaurantName, List<DiningMainItem> diningMainItems){
+    public DiningMainsAdapter(Context context, Activity activity, String restaurantName, List<DiningMainItem> diningMainItems){
         mContext = context;
+        this.activity = activity;
         this.restaurantName = restaurantName;
         this.diningMainItems = diningMainItems;
     }
@@ -140,11 +145,13 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
                                     public void onFinish() {
                                         OrdersDAO.updateOrder(order, "Ready");
-
-                                        notifyDataSetChanged();
-
                                     }
                                 }.start();
+
+                                Intent goBack = new Intent();
+                                activity.setResult(RESULT_OK,goBack);
+
+                                activity.finish();
 
 
 

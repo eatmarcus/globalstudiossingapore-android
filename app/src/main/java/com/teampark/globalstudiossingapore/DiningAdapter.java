@@ -1,5 +1,6 @@
 package com.teampark.globalstudiossingapore;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -24,11 +25,15 @@ import java.util.List;
 public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder> {
 
     private List<DiningPlaces> diningPlaces;
+    private Activity activity;
     private Context mContext;
 
+    private static final int DINING_FOOD = 2;
+
     // Pass in the diningPlaces array into the constructor
-    public DiningAdapter(Context context,List<DiningPlaces> diningPlacesList){
+    public DiningAdapter(Context context, Activity activity, List<DiningPlaces> diningPlacesList){
         mContext = context;
+        this.activity = activity;
         diningPlaces = diningPlacesList;
     }
 
@@ -116,12 +121,12 @@ public class DiningAdapter extends RecyclerView.Adapter<DiningAdapter.ViewHolder
         itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(mContext,DiningMenu.class);
+                Intent intent = new Intent(activity,DiningMenu.class);
                 intent.putExtra("restaurantId", places.getId());
                 intent.putExtra("diningPlace",places.getDiningName());
                 intent.putExtra("diningPic", places.getImageUrl());
                 // When the person click should go to the DiningMenu page
-                mContext.startActivity(intent);
+                activity.startActivityForResult(intent, DINING_FOOD);
             }
         });
 

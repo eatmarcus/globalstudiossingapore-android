@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.teampark.globalstudiossingapore.Entity.Records;
 import com.teampark.globalstudiossingapore.Network.RecordRequestInterface;
@@ -51,10 +52,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuideMapFragment.OnFragmentInteractionListener, DiningFragment.OnFragmentInteractionListener
         , AttractionsFragment.OnFragmentInteractionListener, ItineraryFragment.OnFragmentInteractionListener, PhotoSelectionFragment.OnFragmentInteractionListener,
-        OrdersFragment.OnFragmentInteractionListener{
+        OrdersFragment.OnFragmentInteractionListener {
 
     protected static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_GET_LOCATION = 1;
+    private static final int PERMISSIONS_REQUEST_CALL = 2;
+
+    private static final int DINING_FOOD = 2;
+
     private BeaconManager beaconManager;
     private BeaconRegion region1, region2;
 
@@ -88,6 +93,10 @@ public class MainActivity extends AppCompatActivity
                             //                                          int[] grantResults)
                             // to handle the case where the user grants the permission. See the documentation
                             // for ActivityCompat#requestPermissions for more details.
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.CALL_PHONE, Manifest.permission.CALL_PHONE},
+                                        PERMISSIONS_REQUEST_CALL);
+                            }
                             return;
                         } else {
                             startActivity(intent);
@@ -142,7 +151,7 @@ public class MainActivity extends AppCompatActivity
 
 //        Intent intent = new Intent(this, ARActivity.class);
 //        startActivity(intent);
-        NotificationUtil.countdownNotification(this, "Your chicken rice is ready!", 10);
+        //NotificationUtil.countdownNotification(this, "Your chicken rice is ready!", 10);
 
 
     }
@@ -185,8 +194,39 @@ public class MainActivity extends AppCompatActivity
                                 }
                             });
                 }
-                return;
+                break;
             }
+            case PERMISSIONS_REQUEST_CALL:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    Log.d(TAG, "Location Permission allowed by user.");
+                    // doSomething();
+
+                    String toCall = "81020805";
+
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + toCall));
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+
+            }
+            break;
 
             // other 'case' lines to check for other
             // permissions this app might request
@@ -281,6 +321,20 @@ public class MainActivity extends AppCompatActivity
             public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
                 Log.d("ENTERED", region.getIdentifier());
                 Toast.makeText(getApplicationContext(), "Entered " + region.getIdentifier(), Toast.LENGTH_LONG).show();
+
+
+                String attractionId = region.getIdentifier();
+                String attractionName = "";
+
+                if (attractionId.equals("1")){
+                    attractionName = "Thomie's Mine Train";
+                } else if (attractionId.equals("2")) {
+                    attractionName = "Dare Devil";
+                }
+
+                NotificationUtil.sendNotification(MainActivity.this, "You have entered " + attractionName + ". Enjoy your ride!");
+
+
                 //
                 // USER ENTERS REGION, INSERT A RECORD WITH ISENTERED 1
                 //
@@ -413,6 +467,13 @@ public class MainActivity extends AppCompatActivity
                 args.putString("coordinates","0.71214676,0.42501387");
                 Fragment fragment = new GuideMapFragment();
                 fragment.setArguments(args);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }
+        } else if (requestCode == DINING_FOOD){
+            if(resultCode == RESULT_OK) {
+                Fragment fragment = new OrdersFragment();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.mainFrame, fragment);
                 ft.commit();

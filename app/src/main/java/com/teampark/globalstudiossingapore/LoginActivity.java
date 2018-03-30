@@ -1,10 +1,19 @@
 package com.teampark.globalstudiossingapore;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,7 +30,7 @@ import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final int SCAN_QR = 1;
+    private final int PERMISSIONS_REQUEST_CALL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,77 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void callClicked(View view) {
+
+        String toCall = "81020805";
+        DialogBuilder.showDialog("Emergency Call Only", "Are you sure you want to call?", LoginActivity.this, "Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + toCall));
+                if (ActivityCompat.checkSelfPermission(LoginActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE, android.Manifest.permission.CALL_PHONE},
+                                PERMISSIONS_REQUEST_CALL);
+                    }
+                    return;
+                } else {
+                    startActivity(intent);
+                }
+            }
+        }, "No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // nothing
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+
+            case PERMISSIONS_REQUEST_CALL:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    Log.d("LoginActivity", "Location Permission allowed by user.");
+                    // doSomething();
+
+                    String toCall = "81020805";
+
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + toCall));
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                break;
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override

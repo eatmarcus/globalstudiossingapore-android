@@ -96,7 +96,7 @@ public class DiningFragment extends Fragment {
         // Initialize dining places
         diningList = DiningPlaces.createDiningList(location);
         // Create adapter passing in the sample user data
-        DiningAdapter adapter = new DiningAdapter(getActivity(),diningList);
+        DiningAdapter adapter = new DiningAdapter(getActivity(), getActivity(), diningList);
         // Attach the adapter to the recyclerview to populate items
         rvDiningPlaces.setAdapter(adapter);
         rvDiningPlaces.setLayoutManager(new LinearLayoutManager(getActivity()));
