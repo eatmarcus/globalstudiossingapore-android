@@ -1,8 +1,11 @@
 package com.teampark.globalstudiossingapore;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -153,6 +157,19 @@ public class MainActivity extends AppCompatActivity
 //        startActivity(intent);
         //NotificationUtil.countdownNotification(this, "Your chicken rice is ready!", 10);
 
+        SearchView searchView = toolbar.findViewById(R.id.searchView);
+        searchView.setVisibility(View.VISIBLE);
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AttractionsFragment();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, fragment);
+                ft.commit();
+            }
+        });
+
 
     }
 
@@ -259,9 +276,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -292,8 +309,6 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, fragment);
             ft.commit();
-        } else if (id == R.id.settings) {
-
         } else if (id == R.id.arphototaking) {
             fragment = new PhotoSelectionFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -320,7 +335,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onEnteredRegion(BeaconRegion region, List<Beacon> beacons) {
                 Log.d("ENTERED", region.getIdentifier());
-                Toast.makeText(getApplicationContext(), "Entered " + region.getIdentifier(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Entered " + region.getIdentifier(), Toast.LENGTH_LONG).show();
 
 
                 String attractionId = region.getIdentifier();
@@ -332,7 +347,7 @@ public class MainActivity extends AppCompatActivity
                     attractionName = "Dare Devil";
                 }
 
-                NotificationUtil.sendNotification(MainActivity.this, "You have entered " + attractionName + ". Enjoy your ride!");
+                NotificationUtil.sendNotification(MainActivity.this, "attraction", "You have entered " + attractionName + ". Enjoy your ride!");
 
 
                 //
@@ -480,4 +495,5 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 }

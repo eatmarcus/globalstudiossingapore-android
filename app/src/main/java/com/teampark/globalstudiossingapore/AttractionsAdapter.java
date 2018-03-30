@@ -7,18 +7,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.teampark.globalstudiossingapore.Entity.Attraction;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Theresa Lee on 3/24/2018.
  */
 
-public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.ViewHolder>{
+public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.ViewHolder> implements Filterable {
 
     private List<Attractions> attractions;
+    private List<Attractions> mFilteredList;
+
     private Activity mActivity;
     private Context mContext;
 
@@ -27,10 +34,18 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
         mContext = context;
         mActivity = activity;
         attractions = attractionsList;
+        mFilteredList = attractionsList;
+
+        setHasStableIds(true);
     }
 
     private Context getContext(){
         return mContext;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mFilteredList.get(position).hashCode();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,6 +71,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
             category = (TextView)itemView.findViewById(R.id.attractionCategory);
 
             this.context = context;
+
         }
     }
         // To inflate the item layout and create the holder
@@ -78,7 +94,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
     @Override
     public void onBindViewHolder(AttractionsAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
-        final Attractions rides = attractions.get(position);
+        final Attractions rides = mFilteredList.get(position);
 
         // Set item views based on your views and data model
         TextView textViewName = viewHolder.name;
@@ -124,7 +140,56 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
     // To determine the number of items
     @Override
     public int getItemCount() {
-        return attractions.size();
+        return mFilteredList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+
+                    mFilteredList = attractions;
+
+                } else {
+
+                    ArrayList<Attractions> filteredList = new ArrayList<>();
+
+                    for (Attractions attraction : attractions) {
+                        System.out.println(attraction.getAttractionName().toLowerCase());
+
+                        if (attraction.getAttractionName().toLowerCase().contains(charString.toLowerCase())) {
+
+                            filteredList.add(attraction);
+
+                            System.out.println("ADDED");
+                        }
+                    }
+
+                    mFilteredList = filteredList;
+
+                    System.out.println("SIZE: "+mFilteredList.size());
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilteredList;
+                filterResults.count = mFilteredList.size();
+
+                System.out.println("NUM RESULTS: " + filterResults.count);
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mFilteredList = (ArrayList<Attractions>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
 

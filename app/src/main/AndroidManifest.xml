@@ -36,7 +36,8 @@
             android:label="Dining Menu"/>
         <activity android:name=".DiningMains"></activity>
         <activity android:name=".ARActivity"></activity>
-        <activity android:name=".AttractionInfor"></activity>
+        <activity android:name=".AttractionInfor"
+            android:label="Attraction Information"></activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" >

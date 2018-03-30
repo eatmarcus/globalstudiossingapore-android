@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +58,8 @@ public class AttractionsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private SearchView searchView;
+
     private final String TAG = "AttractionsFragment";
 
     private static String url = "http://heyitsmong.com:8080/gss-server/api/";
@@ -102,7 +106,6 @@ public class AttractionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         ( (MainActivity) getActivity()).getSupportActionBar().setTitle("Attractions");
 
-        getActivity().setTitle("Attractions");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_attractions, container, false);
@@ -117,6 +120,24 @@ public class AttractionsFragment extends Fragment {
         // Attach the adapter to the recyclerview to populate items
         rvAttractions.setAdapter(adapter);
         rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        searchView = toolbar.findViewById(R.id.searchView);
+        searchView.setVisibility(View.VISIBLE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("TEXT CHANGE: "+newText);
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
 
 
         //
@@ -200,6 +221,20 @@ public class AttractionsFragment extends Fragment {
         rvAttractions.setAdapter(adapter);
         rvAttractions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("TEXT CHANGE: "+newText);
+                adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
 
     }
 
@@ -230,6 +265,7 @@ public class AttractionsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        searchView.setVisibility(View.INVISIBLE);
     }
 
     /**

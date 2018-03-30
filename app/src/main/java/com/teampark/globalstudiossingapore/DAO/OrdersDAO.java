@@ -6,6 +6,7 @@ import com.teampark.globalstudiossingapore.Entity.Order;
 import com.teampark.globalstudiossingapore.utility.SharedPrefsUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 
 /**
@@ -44,6 +45,8 @@ public class OrdersDAO {
             orderList.add(order);
         }
 
+        Collections.reverse(orderList);
+
 
         return orderList;
     }
@@ -52,7 +55,8 @@ public class OrdersDAO {
 
         ArrayList<Order> orderList = getOrderList();
 
-        Order orderRetrieved = orderList.get(orderList.size()-1);
+//        Order orderRetrieved = orderList.get(orderList.size()-1);
+        Order orderRetrieved = orderList.get(0);
 
         orderRetrieved.setStatus("Ready");
 

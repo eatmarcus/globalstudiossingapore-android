@@ -6,7 +6,11 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -78,6 +82,8 @@ public class GuideMapFragment extends Fragment {
     private AVLoadingIndicatorView aviSteamin;
     private AVLoadingIndicatorView aviDare;
 
+    private SearchView searchView;
+
     private static String url = "http://heyitsmong.com:8080/gss-server/api/";
     CompositeDisposable compositeDisposable;
 
@@ -119,9 +125,10 @@ public class GuideMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_guide_map, container, false);
 
-        getActivity().setTitle("Guide Map");
+        ( (MainActivity) getActivity()).getSupportActionBar().setTitle("Guide Map");
+
+        View view = inflater.inflate(R.layout.fragment_guide_map, container, false);
 
 
         aviDare = view.findViewById(R.id.aviDare);
@@ -141,6 +148,27 @@ public class GuideMapFragment extends Fragment {
 
         avi = view.findViewById(R.id.avi);
         attractionsList = Attractions.createAttractionList();
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        searchView = toolbar.findViewById(R.id.searchView);
+        searchView.setVisibility(View.VISIBLE);
+
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Fragment fragment = new AttractionsFragment();
+//                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                ft.replace(R.id.mainFrame, fragment);
+//                ft.commit();
+//            }
+//        });
+
+        FloatingActionButton emergencyCall = getActivity().findViewById(R.id.emergencyCall);
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) emergencyCall.getLayoutParams();
+        p.setMargins(0,0,(int) ConverterUtility.dpToPx(getActivity(), 16), (int) ConverterUtility.dpToPx(getActivity(),200));
+        emergencyCall.setLayoutParams(p);
+
+        //emergencyCall.requestLayout();
 
 
         Bundle bundle = this.getArguments();
@@ -211,8 +239,8 @@ public class GuideMapFragment extends Fragment {
             }
 
         }
-        int time1 = Integer.parseInt(timeFor1);
-        int time2 = Integer.parseInt(timeFor2);
+//        int time1 = Integer.parseInt(timeFor1);
+//        int time2 = Integer.parseInt(timeFor2);
     }
 
     private void handleError(Throwable error) {
@@ -242,6 +270,13 @@ public class GuideMapFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        searchView.setVisibility(View.INVISIBLE);
+        searchView.setOnClickListener(null);
+
+        FloatingActionButton emergencyCall = getActivity().findViewById(R.id.emergencyCall);
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) emergencyCall.getLayoutParams();
+        p.setMargins(0,0,(int) ConverterUtility.dpToPx(getActivity(), 16), (int) ConverterUtility.dpToPx(getActivity(),16));
+        emergencyCall.setLayoutParams(p);
     }
 
     /**

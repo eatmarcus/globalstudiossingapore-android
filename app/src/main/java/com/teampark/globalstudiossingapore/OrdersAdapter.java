@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.teampark.globalstudiossingapore.Entity.Order;
 import com.teampark.globalstudiossingapore.Entity.PhotoCharacter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -123,6 +124,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return orderList.size();
+    }
+
+    public void updateList(ArrayList<Order> orderList){
+        this.orderList = orderList;
     }
 
 }

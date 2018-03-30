@@ -1,6 +1,9 @@
 package com.teampark.globalstudiossingapore;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +41,9 @@ public class OrdersFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerView;
+    private OrdersAdapter adapter;
+
+    private MyBroadcastReceiver receiver;
 
     public OrdersFragment() {
         // Required empty public constructor
@@ -81,6 +87,12 @@ public class OrdersFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
         setRecyclerView();
+
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction("com.teampark.globalstudiossingapore.onMessageReceived");
+//        receiver = new MyBroadcastReceiver();
+//        getActivity().registerReceiver(receiver, intentFilter);
+
 
         return view;
     }
@@ -128,10 +140,40 @@ public class OrdersFragment extends Fragment {
 
         ArrayList<Order> orderList = OrdersDAO.getOrderList();
 
-        OrdersAdapter adapter = new OrdersAdapter(getActivity(), orderList);
+        adapter = new OrdersAdapter(getActivity(), orderList);
         // Attach the adapter to the recyclerview to populate items
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+    }
+
+    private class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            System.out.println("THIS IS DONE!!!!!");
+            Bundle extras = intent.getExtras();
+            String view = extras.getString("view");
+
+            String message = extras.getString("extra");
+            //updateView(state);// update your textView in the main layout
+            if (view.equals("order")){
+                System.out.println("THIS IS CALLED!!!");
+                ArrayList<Order> orderList = OrdersDAO.getOrderList();
+                adapter.updateList(orderList);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        System.out.println("THIS IS RUN");
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.teampark.globalstudiossingapore.onMessageReceived");
+        receiver = new MyBroadcastReceiver();
+        getActivity().registerReceiver(receiver, intentFilter);
     }
 }

@@ -316,7 +316,7 @@ public class ARActivity extends AppCompatActivity {
                         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("image/png");
                         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(s));
-                        //startActivity(Intent.createChooser(shareIntent, "Share image using"));
+                        startActivity(Intent.createChooser(shareIntent, "Share photo: "));
 
 //                        mStatus = status;
 //                        updateUIHud();

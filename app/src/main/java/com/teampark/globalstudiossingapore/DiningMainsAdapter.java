@@ -130,12 +130,12 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
                                 String dateTimeString = currentTime.toString();
                                 dateTimeString = dateTimeString.substring(0, dateTimeString.indexOf("GMT"));
 
-                                Order order = new Order(dateTimeString, restaurantName, diningMainItem.getName(), diningMainItem.getPrice(), "Cooking", diningMainItem.getImage());
+                                Order order = new Order(dateTimeString, restaurantName, diningMainItem.getName(), diningMainItem.getPrice(), "15 mins", diningMainItem.getImage());
                                 OrdersDAO.addOrder(order);
 
                                 int timeInSeconds = 10;
 
-                                NotificationUtil.countdownNotification(mContext, "Your " + order.getFoodName() + " is now ready!", timeInSeconds);
+                                NotificationUtil.countdownNotification(mContext, "order","Your " + order.getFoodName() + " is now ready!", timeInSeconds+1);
 
                                 new CountDownTimer(timeInSeconds * 1000, 1000) {
 
@@ -153,11 +153,6 @@ public class DiningMainsAdapter extends RecyclerView.Adapter<DiningMainsAdapter.
 
                                 activity.finish();
 
-
-
-
-                                // TODO: Show order fragment.
-                                //Intent intent = new Intent(mContext, )
                             }
                         }, "NO", new DialogInterface.OnClickListener() {
                             @Override

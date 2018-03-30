@@ -24,7 +24,7 @@ public class NotificationUtil {
      *
      * @param messageBody FCM message body received.
      */
-    public static void sendNotification(Context context, String messageBody) {
+    public static void sendNotification(Context context, String view, String messageBody) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
@@ -55,9 +55,16 @@ public class NotificationUtil {
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.putExtra("view", view);
+        broadcastIntent.setAction("com.teampark.globalstudiossingapore.onMessageReceived");
+        context.sendBroadcast(broadcastIntent);
+
+
     }
 
-    public static void countdownNotification(Context context, String messageBody, int timeInSeconds){
+    public static void countdownNotification(Context context, String view, String messageBody, int timeInSeconds){
         new CountDownTimer(timeInSeconds * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -65,7 +72,7 @@ public class NotificationUtil {
             }
 
             public void onFinish() {
-                sendNotification(context, messageBody);
+                sendNotification(context, view, messageBody);
 
             }
         }.start();

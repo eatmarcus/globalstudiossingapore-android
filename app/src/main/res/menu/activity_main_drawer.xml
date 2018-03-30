@@ -24,9 +24,5 @@
             android:id="@+id/orders"
             android:icon="@drawable/shoppinglist"
             android:title="My Orders" />
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />
     </group>
 </menu>
