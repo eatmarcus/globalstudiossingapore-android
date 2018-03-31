@@ -4,7 +4,7 @@ GSS is an android project done for SMU's Mobile & Pervasive Technology.
 
 # Context:
 This app aims to replace the physical paper map given to theme park patrons. It utilizes bluetooth beacons to detect patrons entering and exiting the attraction, which automates the calculation for the queues' waiting time.
-It also provides directions to app user to selected attractions. There is an emergency call function within the app to contact theme park staff in case of an emergency. Lastly, AR phototaking function so that theme park goers can take photos with their favourite mascots anywhere and anytime.
+It also provides directions to the selected attractions. There is an emergency call function within the app to contact the theme park staff in case of an emergency. Lastly, AR phototaking function so that theme park goers can take photos with their favourite mascots anywhere and anytime.
 
 
 # Key features:
@@ -20,7 +20,6 @@ It also provides directions to app user to selected attractions. There is an eme
 
 
 # Architecture
-
 Backend: (MySQL database, Apache Tomcat) inside Ubuntu server
 
 Http request/response: REST API within Retrofit
@@ -28,4 +27,5 @@ Http request/response: REST API within Retrofit
 Frontend: Android
 
 
-Team members: Marcus Ong (myself), Darryl Ong, Theresa Lee, Yang FengFeng
+# Team members
+Marcus Ong (myself), Darryl Ong, Theresa Lee, Yang FengFeng
